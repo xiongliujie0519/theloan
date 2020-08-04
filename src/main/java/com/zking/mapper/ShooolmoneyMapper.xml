@@ -10,6 +10,19 @@
       <arg column="sm_money" jdbcType="REAL" javaType="java.lang.Float" />
     </constructor>
   </resultMap>
+
+
+  <resultMap id="row" type="com.zking.model.Shooolmoney">
+    <id column="sm_id" property="smId" javaType="java.lang.Integer"/>
+    <result column="mt_id" property="mtId" javaType="java.lang.Integer"/>
+    <result column="issuedate" property="issuedate" javaType="java.util.Date"/>
+    <result column="stopdate" property="stopdate" javaType="java.util.Date"/>
+    <result column="sm_money" property="smMoney" javaType="java.lang.Float"/>
+
+  </resultMap>
+
+
+
   <sql id="Base_Column_List" >
     sm_id, mt_id, issuedate, stopdate, sm_money
   </sql>
@@ -19,7 +32,12 @@
     from t_shooolmoney
     where sm_id = #{smId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="list" resultMap="row">
+      select
+        <include refid="Base_Column_List"/>
+      from t_shooolmoney
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_shooolmoney
     where sm_id = #{smId,jdbcType=INTEGER}
   </delete>
