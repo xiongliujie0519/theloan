@@ -16,7 +16,11 @@
     from t_class
     where class_id = #{classId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="listClass" resultMap="BaseResultMap">
+      select <include refid="Base_Column_List"/>
+      from t_class
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_class
     where class_id = #{classId,jdbcType=INTEGER}
   </delete>

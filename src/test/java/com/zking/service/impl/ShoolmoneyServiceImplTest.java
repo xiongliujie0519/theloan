@@ -23,8 +23,10 @@ public class ShoolmoneyServiceImplTest extends BaseTestCase {
 
     @Test
     public void list() {
-        //shooolmoney.setSmId(2);
-        List<Shooolmoney> list = iShoolmoneyService.list();
+        float ms = 5000f;
+//        shooolmoney.setSmMoney(ms);
+        shooolmoney.setSmId(1);
+        List<Shooolmoney> list = iShoolmoneyService.list(shooolmoney,pageBean);
         System.out.println(list);
     }
 }

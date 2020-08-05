@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+@ToString
 public class Teacher {
     private Integer teacherId;
 
@@ -18,8 +19,8 @@ public class Teacher {
     private String teacherAddress;
 
     private String teacherTel;
-    /*一个老师对应多个学生*/
-    private List<Class> listClass;
+    /*一个老师对应多个班级*/
+    private List<Class> ListClass;
     public Teacher(Integer teacherId, String teacherName, Integer userId, String teacherSex, String teacherAddress, String teacherTel) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
@@ -82,10 +83,10 @@ public class Teacher {
     }
 
     public List<Class> getListClass() {
-        return listClass;
+        return ListClass;
     }
 
-    public void setListClass(List<Class> listClass) {
-        listClass = listClass;
+    public void setListClass(List<Class> ListClass) {
+        ListClass = ListClass;
     }
 }

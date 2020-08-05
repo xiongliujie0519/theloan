@@ -10,5 +10,5 @@ import java.util.List;
 public interface ITeacherService {
     /*一对多*/
     @Transactional(readOnly = true)
-    List<Teacher> finAll(Teacher teacher, PageBean pageBean);
+   Teacher finAll(Teacher teacher, PageBean pageBean);
 }

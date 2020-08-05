@@ -1,17 +1,46 @@
 package com.zking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Shooolmoney {
     private Integer smId;
 
     private Integer mtId;
-
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date issuedate;
-
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date stopdate;
 
     private Float smMoney;
+
+    //钱类别表
+    private MoneyType moneyType;
+    public MoneyType getMoneyType() {
+        return moneyType;
+    }
+    public void setMoneyType(MoneyType moneyType) {
+        this.moneyType = moneyType;
+    }
+
+    //钱申请表
+    private MoneyApply moneyApply;
+    public MoneyApply getMoneyApply() {
+        return moneyApply;
+    }
+    public void setMoneyApply(MoneyApply moneyApply) {
+        this.moneyApply = moneyApply;
+    }
+
+    //学生表
+    private Student student;
+    public Student getStudent() {
+        return student;
+    }
+    public void setStudent(Student student) {
+        this.student = student;
+    }
 
     public Shooolmoney(Integer smId, Integer mtId, Date issuedate, Date stopdate, Float smMoney) {
         this.smId = smId;

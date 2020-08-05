@@ -5,6 +5,7 @@ public class MoneyType {
 
     private String mtName;
 
+
     public MoneyType(Integer mtId, String mtName) {
         this.mtId = mtId;
         this.mtName = mtName;
@@ -13,6 +14,8 @@ public class MoneyType {
     public MoneyType() {
         super();
     }
+
+
 
     public Integer getMtId() {
         return mtId;

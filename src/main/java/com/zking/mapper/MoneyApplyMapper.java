@@ -1,6 +1,7 @@
 package com.zking.mapper;
 
 import com.zking.model.MoneyApply;
+import com.zking.model.Shooolmoney;
 
 public interface MoneyApplyMapper {
     int deleteByPrimaryKey(Integer maId);
@@ -14,4 +15,8 @@ public interface MoneyApplyMapper {
     int updateByPrimaryKeySelective(MoneyApply record);
 
     int updateByPrimaryKey(MoneyApply record);
+
+
+    //奖学金申请
+    int updateJiangxuejin(Shooolmoney shooolmoney);
 }

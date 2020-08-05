@@ -127,4 +127,7 @@
       applydate = #{applydate,jdbcType=TIMESTAMP}
     where ma_id = #{maId,jdbcType=INTEGER}
   </update>
+    <update id="updateJiangxuejin">
+
+    </update>
 </mapper>
