@@ -15,7 +15,15 @@
   <resultMap id="row" type="com.zking.model.Teacher">
 <id column="teacher_id" property="teacherId" javaType="java.lang.Integer"></id>
 <result column="teacher_name" property="teacherName" javaType="java.lang.String"></result>
+<<<<<<< HEAD
 <collection property="ListClass" ofType="com.zking.model.Class">
+=======
+<result column="user_id" property="userId" javaType="java.lang.Integer"></result>
+<result column="teacher_sex" property="teacherSex" javaType="java.lang.String"></result>
+<result column="teacher_address" property="teacherAddress" javaType="java.lang.String"/>
+<result column="teacher_tel" property="teacherTel" javaType="java.lang.String"/>
+<collection property="listClass" ofType="com.zking.model.Class">
+>>>>>>> 10f56c32975e0edd71b0b563f7ad6360acbe70fe
   <id column="class_id" property="classId" javaType="java.lang.Integer"></id>
   <result column="class_name" property="className" javaType="java.lang.String"/>
 </collection>
@@ -36,12 +44,21 @@
 
   <!--一对多查询-->
   <select id="finAll" resultMap="row">
+<<<<<<< HEAD
 
  select t.teacher_id,teacher_name,c.class_id,c.class_name from t_teacher t
 		left outer join t_teacher_class tc
         on t.teacher_id=tc.teacher_id
         left outer join t_class c on
         tc.class_id=c.class_id  where t.teacher_id=#{teacherId}
+=======
+        select t.*,c.* from t_teacher t
+		left outer join
+		t_teacher_class tc on t.teacher_id=tc.teacher_id
+		left outer join
+		t_class c on tc.class_id=c.class_id  where t.teacher_id=#{teacherId}
+
+>>>>>>> 10f56c32975e0edd71b0b563f7ad6360acbe70fe
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_teacher

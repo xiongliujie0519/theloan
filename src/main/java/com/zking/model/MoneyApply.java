@@ -1,5 +1,7 @@
 package com.zking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class MoneyApply {
@@ -13,10 +15,13 @@ public class MoneyApply {
 
     private Integer staffId;
 
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date auditdate;
 
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date disposedate;
 
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date applydate;
 
     public MoneyApply(Integer maId, Integer smId, Integer tcId, Integer studentId, Integer staffId, Date auditdate, Date disposedate, Date applydate) {
