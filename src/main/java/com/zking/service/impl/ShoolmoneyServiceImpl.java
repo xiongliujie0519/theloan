@@ -3,6 +3,7 @@ package com.zking.service.impl;
 import com.zking.mapper.ShooolmoneyMapper;
 import com.zking.model.Shooolmoney;
 import com.zking.service.IShoolmoneyService;
+import com.zking.util.PageBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ public class ShoolmoneyServiceImpl implements IShoolmoneyService {
 
 
     @Override
-    public List<Shooolmoney> list() {
-        return shooolmoneyMapper.list();
+    public List<Shooolmoney> list(Shooolmoney shooolmoney,PageBean pageBean) {
+        return shooolmoneyMapper.list(shooolmoney,pageBean);
     }
 }
