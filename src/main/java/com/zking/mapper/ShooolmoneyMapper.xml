@@ -18,7 +18,6 @@
     <result column="issuedate" property="issuedate" javaType="java.util.Date"/>
     <result column="stopdate" property="stopdate" javaType="java.util.Date"/>
     <result column="sm_money" property="smMoney" javaType="java.lang.Float"/>
-
   </resultMap>
 
 
