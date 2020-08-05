@@ -31,6 +31,16 @@ public class Student {
 
     private Integer scoreId;
 
+    private  Score score;
+
+    public Score getScore() {
+        return score;
+    }
+
+    public void setScore(Score score) {
+        this.score = score;
+    }
+
     public Student(Integer studentId, String studentName, Integer classId, Integer userId, String studentIdentity, String studentSex, String studentAddress, Integer studentAge, String studentAncestral, String studentTel, Integer studentStatus, Integer shooolmoneyStatus, Integer loansStatus, String studentInfo, Integer scoreId) {
         this.studentId = studentId;
         this.studentName = studentName;

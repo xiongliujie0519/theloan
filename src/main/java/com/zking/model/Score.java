@@ -7,6 +7,16 @@ public class Score {
 
     private Integer studentId;
 
+    private Integer score;
+
+    public Integer getScore() {
+        return score;
+    }
+
+    public void setScore(Integer score) {
+        this.score = score;
+    }
+
     public Score(Integer scoreId, String scoreCourse, Integer studentId) {
         this.scoreId = scoreId;
         this.scoreCourse = scoreCourse;

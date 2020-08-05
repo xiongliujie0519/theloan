@@ -11,6 +11,8 @@ public class Class {
     private String className;
 
 
+
+
     public Class(Integer classId, String className) {
         this.classId = classId;
         this.className = className;
@@ -35,6 +37,7 @@ public class Class {
     public void setClassName(String className) {
         this.className = className;
     }
+
 
 
 }

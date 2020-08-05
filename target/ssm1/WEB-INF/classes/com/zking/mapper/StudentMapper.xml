@@ -20,6 +20,33 @@
       <arg column="score_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
+
+  <resultMap id="row" type="com.zking.model.Student" >
+      <id column="student_id"  property="studentId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_name" property="studentName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="class_id" property="classId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_identity" property="studentIdentity" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_sex" property="studentSex" jdbcType="CHAR" javaType="java.lang.String" />
+      <result column="student_address" property="studentAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_age" property="studentAge" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_ancestral" property="studentAncestral" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_tel" property="studentTel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_status" property="studentStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="shooolmoney_status" property="shooolmoneyStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="loans_status" property="loansStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_info" property="studentInfo" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="score_id" property="scoreId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <association property="score" javaType="com.zking.model.Score">
+      <id column="score_id" property="scoreId" javaType="java.lang.Integer"  />
+      <result column="score_course" property="scoreCourse" javaType="java.lang.String"/>
+      <result column="student_id" property="studentId" javaType="java.lang.Integer"/>
+      <result column="score" property="score" javaType="java.lang.Integer"/>
+    </association>
+  </resultMap>
+
+
+
   <sql id="Base_Column_List" >
     student_id, student_name, class_id, user_id, student_identity, student_sex, student_address, 
     student_age, student_ancestral, student_tel, student_status, shooolmoney_status, 
@@ -31,6 +58,19 @@
     from t_student
     where student_id = #{studentId,jdbcType=INTEGER}
   </select>
+    <select id="listStudent" resultMap="row">
+		select s.student_id,s.student_name,s.student_sex,s.student_age,s.student_tel,s.student_status,s.student_info,s.loans_status,s.shooolmoney_status,ts.* from t_student s
+		left join t_score ts
+		on s.score_id=ts.score_id where 1=1
+      <if test="studentName != null">
+        and student_name like CONCAT(CONCAT('%',#{studentName},'%'))
+      </if>
+    </select>
+  <select id="selStudent" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from t_student where student_id=#{studentId}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_student
     where student_id = #{studentId,jdbcType=INTEGER}

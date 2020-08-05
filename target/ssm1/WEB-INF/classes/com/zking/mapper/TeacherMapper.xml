@@ -11,6 +11,19 @@
       <arg column="teacher_tel" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
+
+  <resultMap id="row" type="com.zking.model.Teacher">
+<id column="teacher_id" property="teacherId" javaType="java.lang.Integer"></id>
+<result column="teacher_name" property="teacherName" javaType="java.lang.String"></result>
+<collection property="ListClass" ofType="com.zking.model.Class">
+  <id column="class_id" property="classId" javaType="java.lang.Integer"></id>
+  <result column="class_name" property="className" javaType="java.lang.String"/>
+</collection>
+
+  </resultMap>
+
+
+
   <sql id="Base_Column_List" >
     teacher_id, teacher_name, user_id, teacher_sex, teacher_address, teacher_tel
   </sql>
@@ -19,6 +32,16 @@
     <include refid="Base_Column_List" />
     from t_teacher
     where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </select>
+
+  <!--一对多查询-->
+  <select id="finAll" resultMap="row">
+
+ select t.teacher_id,teacher_name,c.class_id,c.class_name from t_teacher t
+		left outer join t_teacher_class tc
+        on t.teacher_id=tc.teacher_id
+        left outer join t_class c on
+        tc.class_id=c.class_id  where t.teacher_id=#{teacherId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_teacher

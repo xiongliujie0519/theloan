@@ -14,19 +14,17 @@ import java.util.List;
 @Controller
 @RequestMapping("TeacherController")
 public class TeacherController {
-
-    @Autowired
+   @Autowired
     private ITeacherService iTeacherService;
-
     private PageBean pageBean;
     //查询
     @RequestMapping("finAlly")
     @ResponseBody
-    public List<Teacher> finAlly(Model model, Teacher teacher){
+    public Teacher finAlly(Model model, Teacher teacher){
          pageBean=new PageBean();
         pageBean.setRows(2);
         teacher.setTeacherId(1);
-        List<Teacher> teachers = iTeacherService.finAll(teacher,pageBean);
+        Teacher teachers = iTeacherService.finAll(teacher,pageBean);
         return teachers;
     }
 
