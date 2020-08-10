@@ -5,11 +5,11 @@
     <constructor >
       <idArg column="rs" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="roleid" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="staff_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="st_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    rs, roleid, staff_id
+    rs, roleid, st_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -22,9 +22,9 @@
     where rs = #{rs,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zking.model.SysRoleStaff" >
-    insert into t_sys_role_staff (rs, roleid, staff_id
+    insert into t_sys_role_staff (rs, roleid, st_id
       )
-    values (#{rs,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}
+    values (#{rs,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}, #{stId,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.zking.model.SysRoleStaff" >
@@ -36,8 +36,8 @@
       <if test="roleid != null" >
         roleid,
       </if>
-      <if test="staffId != null" >
-        staff_id,
+      <if test="stId != null" >
+        st_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -47,8 +47,8 @@
       <if test="roleid != null" >
         #{roleid,jdbcType=INTEGER},
       </if>
-      <if test="staffId != null" >
-        #{staffId,jdbcType=INTEGER},
+      <if test="stId != null" >
+        #{stId,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -59,7 +59,7 @@
         roleid = #{roleid,jdbcType=INTEGER},
       </if>
       <if test="staffId != null" >
-        staff_id = #{staffId,jdbcType=INTEGER},
+        st_id = #{stId,jdbcType=INTEGER},
       </if>
     </set>
     where rs = #{rs,jdbcType=INTEGER}
@@ -67,7 +67,7 @@
   <update id="updateByPrimaryKey" parameterType="com.zking.model.SysRoleStaff" >
     update t_sys_role_staff
     set roleid = #{roleid,jdbcType=INTEGER},
-      staff_id = #{staffId,jdbcType=INTEGER}
+      st_id = #{stId,jdbcType=INTEGER}
     where rs = #{rs,jdbcType=INTEGER}
   </update>
 </mapper>

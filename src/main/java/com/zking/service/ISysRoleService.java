@@ -45,4 +45,45 @@ public interface ISysRoleService {
      * @return
      */
     int getMax();
+
+
+    /**
+     * 根据roleid删除主表信息
+     * @param sysRole
+     * @return
+     */
+    int deletesysRole(SysRole sysRole);
+
+
+    /**
+     * 根据roleid删除角色部门信息
+     * @param sysRole
+     * @return
+     */
+    int deletesysRoleStaff(SysRole sysRole);
+
+
+    /**
+     * 根据roleid修改角色信息
+     * @param sysRole
+     * @return
+     */
+    int updatesysRole(SysRole sysRole);
+
+
+    /**
+     * 根据roleid修改角色部门类型桥接表信息
+     * @param
+     * @return
+     */
+    int updatesysRoleStaff(Integer stId,Integer roleid);
+
+
+    /**
+     * 根据roleid查看信息
+     * @param sysRole
+     * @return
+     */
+    @Transactional(readOnly = true)
+    SysRole loadByRoleid(SysRole sysRole);
 }

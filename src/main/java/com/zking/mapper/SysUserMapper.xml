@@ -8,16 +8,61 @@
       <arg column="PASSWORD" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="salt" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="createdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="userstate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
     </constructor>
   </resultMap>
+  <resultMap id="row" type="com.zking.model.SysUser">
+    <id column="userid" property="userid" javaType="java.lang.Integer"/>
+    <result column="username" property="username" javaType="java.lang.String"/>
+    <result column="PASSWORD" property="password" javaType="java.lang.String"/>
+    <result column="salt" property="salt" javaType="java.lang.String"/>
+    <result column="createdate" property="createdate" javaType="java.util.Date"/>
+    <result column="userstate" property="userstate" javaType="java.lang.Integer"/>
+    <association property="sysRole" javaType="com.zking.model.SysRole">
+      <id column="roleid" property="roleid" javaType="java.lang.Integer"/>
+      <result column="rolename" property="rolename" javaType="java.lang.String"/>
+      <result column="description" property="description" javaType="java.lang.String"/>
+      <result column="role_czr" property="roleCzr" javaType="java.lang.String"/>
+      <result column="date" property="date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    </association>
+  </resultMap>
   <sql id="Base_Column_List" >
-    userid, username, PASSWORD, salt, createdate
+    userid, username, PASSWORD, salt, createdate,userstate
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_sys_user
     where userid = #{userid,jdbcType=INTEGER}
+  </select>
+  <select id="userLogin" resultType="com.zking.model.SysUser">
+    select <include refid="Base_Column_List"/>
+    from t_sys_user where 1=1 and username=#{username} and userstate=1
+  </select>
+  <select id="findRole" resultType="java.lang.String">
+        select r.rolename from t_sys_user u
+        ,t_sys_user_role ur , t_sys_role r
+        where u.userid=ur.userid and
+        ur.roleid=r.roleid and u.username=#{username}
+  </select>
+  <select id="findPermission" resultType="java.lang.String">
+    select p.permission from t_sys_user u,t_sys_user_role ur,
+    t_sys_role r,t_sys_role_permission rp,t_sys_permission p
+   where u.userid=ur.userid and ur.roleid=r.roleid and
+   rp.roleid=r.roleid and rp.perid=p.perid
+   and u.username=#{username}
+  </select>
+  <select id="listsysUserAll" resultMap="row">
+    select u.*,r.* from t_sys_user u
+    left join t_sys_user_role ur
+    on u.userid=ur.userid
+    left join t_sys_role r
+    on ur.roleid=r.roleid
+    where 1=1
+    <if test="username!=null">
+      and u.username like CONCAT(CONCAT('%',#{username},'%'))
+    </if>
+    ORDER BY  u.userid ASC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_user
@@ -66,7 +111,14 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.SysUser" >
+    <insert id="RegUser">
+       insert into t_sys_user(username,PASSWORD,salt)
+       values(#{username,jdbcType=VARCHAR},
+             #{password,jdbcType=VARCHAR},
+             #{salt,jdbcType=VARCHAR}
+       )
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.SysUser" >
     update t_sys_user
     <set >
       <if test="username != null" >
@@ -91,5 +143,13 @@
       salt = #{salt,jdbcType=VARCHAR},
       createdate = #{createdate,jdbcType=TIMESTAMP}
     where userid = #{userid,jdbcType=INTEGER}
+  </update>
+  <update id="userStart">
+    update t_sys_user set userstate=1
+    where userid=#{userid} and userstate=0
+  </update>
+  <update id="userStop">
+    update t_sys_user set userstate=0
+    where userid=#{userid} and userstate=1
   </update>
 </mapper>

@@ -45,8 +45,8 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     }
 
     @Override
-    public List<SysPermission> queryrootNode() {
-        List<SysPermission> sysPermissions = sysPermissionMapper.queryrootNode();
+    public List<SysPermission> queryrootNode(String username) {
+        List<SysPermission> sysPermissions = sysPermissionMapper.queryrootNode(username);
         for (SysPermission sysPermission : sysPermissions) {
             //传递参数：
             //1) 父节点的ID=10 11 12
@@ -57,8 +57,23 @@ public class SysPermissionServiceImpl implements ISysPermissionService {
     }
 
     @Override
+    public List<SysPermission> queryNode() {
+        List<SysPermission> nodes = sysPermissionMapper.queryNode();
+        for (SysPermission node : nodes) {
+            queryNodeByPid(node.getPerid(),node);
+        }
+        return nodes;
+    }
+
+    @Override
     public void queryModuleByPid(Integer pid, SysPermission sysPermission) {
         List<SysPermission> sysPermissions = sysPermissionMapper.queryModuleByperid(pid);
+        sysPermission.setChildren(sysPermissions);
+    }
+
+    @Override
+    public void queryNodeByPid(Integer pid, SysPermission sysPermission) {
+        List<SysPermission> sysPermissions = sysPermissionMapper.queryNodeByperid(pid);
         sysPermission.setChildren(sysPermissions);
     }
 

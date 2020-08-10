@@ -21,11 +21,11 @@ public class ISysPermissionServiceTest extends BaseTestCase {
     public void setUp() throws Exception {
     }
 
-    @Test
-    public void queryrootNode() {
-        List<SysPermission> sysPermissions = sysPermissionService.queryrootNode();
-        for (SysPermission sysPermission : sysPermissions) {
-            System.out.println(sysPermission);
-        }
-    }
+//    @Test
+//    public void queryrootNode() {
+//        List<SysPermission> sysPermissions = sysPermissionService.queryrootNode();
+//        for (SysPermission sysPermission : sysPermissions) {
+//            System.out.println(sysPermission);
+//        }
+//    }
 }

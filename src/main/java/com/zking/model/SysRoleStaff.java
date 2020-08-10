@@ -8,12 +8,20 @@ public class SysRoleStaff {
 
     private Integer roleid;
 
-    private Integer staffId;
+    public Integer getStId() {
+        return stId;
+    }
 
-    public SysRoleStaff(Integer rs, Integer roleid, Integer staffId) {
+    public void setStId(Integer stId) {
+        this.stId = stId;
+    }
+
+    private Integer stId;
+
+    public SysRoleStaff(Integer rs, Integer roleid, Integer stId) {
         this.rs = rs;
         this.roleid = roleid;
-        this.staffId = staffId;
+        this.stId = stId;
     }
 
     public SysRoleStaff() {
@@ -36,11 +44,5 @@ public class SysRoleStaff {
         this.roleid = roleid;
     }
 
-    public Integer getStaffId() {
-        return staffId;
-    }
 
-    public void setStaffId(Integer staffId) {
-        this.staffId = staffId;
-    }
 }

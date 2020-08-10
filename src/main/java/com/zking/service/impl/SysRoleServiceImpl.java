@@ -65,4 +65,29 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public int getMax() {
         return sysRoleMapper.getMax();
     }
+
+    @Override
+    public int deletesysRole(SysRole sysRole) {
+        return sysRoleMapper.deletesysRole(sysRole);
+    }
+
+    @Override
+    public int deletesysRoleStaff(SysRole sysRole) {
+        return sysRoleMapper.deletesysRoleStaff(sysRole);
+    }
+
+    @Override
+    public int updatesysRole(SysRole sysRole) {
+        return sysRoleMapper.updatesysRole(sysRole);
+    }
+
+    @Override
+    public int updatesysRoleStaff(Integer stId,Integer roleid) {
+        return sysRoleMapper.updatesysRoleStaff(stId,roleid);
+    }
+
+    @Override
+    public SysRole loadByRoleid(SysRole sysRole) {
+        return sysRoleMapper.loadByRoleid(sysRole);
+    }
 }

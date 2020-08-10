@@ -49,7 +49,6 @@ public class SysRoleController {
     @RequestMapping("addSysRole")
     @ResponseBody
     public Map<String,Object> addSysRole(HttpServletRequest req,Model model,SysRole sysRole){
-        System.out.println(sysRole.toString());
         Map<String,Object> map  = new HashMap<>();
 //        //先增加角色信息
         int i = sysRoleService.addSysRole(sysRole);
@@ -59,7 +58,7 @@ public class SysRoleController {
         srs.setRoleid(roleid);
 //
         String stId = req.getParameter("stId");
-        srs.setStaffId(Integer.parseInt(stId));
+        srs.setStId(Integer.parseInt(stId));
         System.out.println(srs);
         int i1 = sysRoleService.addStaff(srs);
         if(i>0 && i1>0){
@@ -71,5 +70,88 @@ public class SysRoleController {
     }
 
 
+    /**
+     * 根据roleid删除主表和角色部门桥接表
+     * @return
+     */
+    @RequestMapping("deletesysRole")
+    @ResponseBody
+    public Map<String,Object> deletesysRole(Model model , SysRole sysRole,HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        //删除主表信息
+        int i = sysRoleService.deletesysRole(sysRole);
+        //删除桥接表信息
+        int i1 = sysRoleService.deletesysRoleStaff(sysRole);
+        if(i>0 && i1>=0){
+            map.put("index",1);
+        }else{
+            map.put("index",0);
+        }
+        return map;
+    }
+
+
+    /**
+     * 根据roleid修改角色信息
+     * @param model
+     * @param sysRole
+     * @param stId
+     * @return
+     */
+    @RequestMapping("savesysRole")
+    @ResponseBody
+    public Map<String,Object> savesysRole(HttpServletRequest req,Model model , SysRole sysRole,Integer stId,Integer roleid){
+        Map<String,Object> map = new HashMap<>();
+        if(sysRole.getRoleid()!=null){
+            int i = sysRoleService.updatesysRole(sysRole);
+            int i1 = sysRoleService.updatesysRoleStaff(stId,roleid);
+            System.out.println(stId);
+            System.out.println(sysRole);
+            if(i>0 && i1>0){
+                map.put("index",1);
+            }else{
+                map.put("index",0);
+            }
+            System.out.println("修改");
+        }else{
+            //先增加角色信息
+            int i = sysRoleService.addSysRole(sysRole);
+            //在增加角色部门桥接表
+            SysRoleStaff srs = new SysRoleStaff();
+            int roleid1 = sysRoleService.getMax();
+            srs.setRoleid(roleid1);
+            String stId1 = req.getParameter("stId");
+            srs.setStId(Integer.parseInt(stId1));
+            System.out.println(srs);
+            int i1 = sysRoleService.addStaff(srs);
+            if(i>0 && i1>0){
+                map.put("index",1);
+            }else{
+                map.put("index",0);
+            }
+            System.out.println("增加");
+        }
+        return  map;
+    }
+
+
+    /**
+     * 根据roleid查询角色信息
+     * @param model
+     * @param sysRole
+     * @return
+     */
+    @RequestMapping("loadByRoleid")
+    @ResponseBody
+    public Map<String,Object> loadByRoleid(Model model ,SysRole sysRole){
+        Map<String,Object> map = new HashMap<>();
+        SysRole sysrole = sysRoleService.loadByRoleid(sysRole);
+        if(sysrole!=null){
+            map.put("sysrole",sysrole);
+        }else{
+            map.put("msg","n");
+        }
+        return map;
+    }
 
 }

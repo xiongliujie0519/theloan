@@ -1,5 +1,7 @@
 package com.zking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class SysUser {
@@ -11,7 +13,30 @@ public class SysUser {
 
     private String salt;
 
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdate;
+
+    public SysRole getSysRole() {
+        return sysRole;
+    }
+
+    public void setSysRole(SysRole sysRole) {
+        this.sysRole = sysRole;
+    }
+
+    private  SysRole sysRole;
+
+    public Integer getUserstate() {
+        return userstate;
+    }
+
+    public void setUserstate(Integer userstate) {
+        this.userstate = userstate;
+    }
+
+    private Integer userstate;
+
+
 
     public SysUser(Integer userid, String username, String password, String salt, Date createdate) {
         this.userid = userid;

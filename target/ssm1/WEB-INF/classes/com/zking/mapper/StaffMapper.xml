@@ -23,9 +23,9 @@
     where staff_id = #{staffId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zking.model.Staff" >
-    insert into t_staff (staff_id, user_id, st_id, 
+    insert into t_staff (staff_id, user_id, st_id,
       staff_name)
-    values (#{staffId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{stId,jdbcType=INTEGER}, 
+    values (#{staffId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{stId,jdbcType=INTEGER},
       #{staffName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zking.model.Staff" >

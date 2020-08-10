@@ -35,23 +35,35 @@
   <select id="listSysRole" resultMap="listSysRole">
     select r.roleid,r.rolename,r.date,st.st_id,st.st_name,r.role_czr,r.description
     from t_sys_role r
-    left join t_sys_role_staff rs
-    on r.roleid=rs.roleid
-    left join t_staff s
-    on s.staff_id=rs.staff_id
+    left join t_sys_role_staff srs
+    on r.roleid=srs.roleid
     left join t_staff_type st
-    on s.st_id = st.st_id
+    on srs.st_id=st.st_id
     where 1=1
     <if test="rolename != null">
       and rolename like CONCAT(CONCAT('%',#{rolename},'%'))
     </if>
+    ORDER BY  r.roleid ASC
   </select>
   <select id="getMax" resultType="java.lang.Integer">
         select max(roleid) from t_sys_role
   </select>
+  <select id="loadByRoleid" resultMap="listSysRole">
+      select r.*,st.* from t_sys_role r
+      left  join t_sys_role_staff rs
+      on r.roleid=rs.roleid
+      left join t_staff_type st
+      on rs.st_id=st.st_id where r.roleid=#{roleid};
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_role
     where roleid = #{roleid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deletesysRole">
+    delete from t_sys_role where roleid=#{roleid}
+  </delete>
+  <delete id="deletesysRoleStaff">
+    delete from t_sys_role_staff where roleid=#{roleid}
   </delete>
   <insert id="insert" parameterType="com.zking.model.SysRole" >
     insert into t_sys_role (roleid, rolename, description, 
@@ -101,8 +113,8 @@
         values (#{rolename,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
   </insert>
   <insert id="addStaff" parameterType="com.zking.model.SysRoleStaff">
-        insert into t_sys_role_staff(roleid,staff_id)
-        values(#{roleid,jdbcType=INTEGER},#{staffId,jdbcType=INTEGER})
+        insert into t_sys_role_staff(roleid,st_id)
+        values(#{roleid,jdbcType=INTEGER},#{stId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.SysRole" >
     update t_sys_role
@@ -129,5 +141,13 @@
       date = #{date,jdbcType=TIMESTAMP},
       role_czr = #{roleCzr,jdbcType=VARCHAR}
     where roleid = #{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updatesysRole" parameterType="com.zking.model.SysRole">
+        update t_sys_role set rolename=#{rolename,jdbcType=VARCHAR},description=#{description,jdbcType=VARCHAR}
+       where roleid=#{roleid,jdbcType=INTEGER}
+  </update>
+  <update id="updatesysRoleStaff">
+    update t_sys_role_staff set st_id=#{stId}
+     where roleid=#{roleid}
   </update>
 </mapper>

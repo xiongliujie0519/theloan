@@ -2,6 +2,7 @@ package com.zking.mapper;
 
 import com.zking.model.SysRole;
 import com.zking.model.SysRoleStaff;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -47,6 +48,46 @@ public interface SysRoleMapper {
      * @return
      */
     int getMax();
+
+
+    /**
+     * 根据roleid删除主表信息
+     * @param sysRole
+     * @return
+     */
+    int deletesysRole(SysRole sysRole);
+
+
+    /**
+     * 根据roleid删除角色部门信息
+     * @param sysRole
+     * @return
+     */
+    int deletesysRoleStaff(SysRole sysRole);
+
+
+    /**
+     * 根据roleid修改角色信息
+     * @param sysRole
+     * @return
+     */
+    int updatesysRole(SysRole sysRole);
+
+
+    /**
+     * 根据roleid修改角色部门类型桥接表信息
+     * @param
+     * @return
+     */
+    int updatesysRoleStaff(@Param("stId") Integer stId,@Param("roleid") Integer roleid);
+
+
+    /**
+     * 根据roleid查看信息
+     * @param sysRole
+     * @return
+     */
+    SysRole loadByRoleid(SysRole sysRole);
 
 
 }

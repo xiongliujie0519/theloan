@@ -30,4 +30,8 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertRolePermission">
+    insert into t_sys_role_permission (roleid, perid)
+    values (#{roleid,jdbcType=INTEGER}, #{perid,jdbcType=INTEGER})
+  </insert>
 </mapper>
