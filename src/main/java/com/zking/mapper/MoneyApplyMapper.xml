@@ -11,10 +11,11 @@
       <arg column="auditdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="disposedate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="applydate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="ma_info" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </constructor>
   </resultMap>
   <sql id="Base_Column_List" >
-    ma_id, sm_id, tc_id, student_id, staff_id, auditdate, disposedate, applydate
+    ma_id, sm_id, tc_id, student_id, staff_id, auditdate, disposedate, applydate,ma_info
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -89,9 +90,13 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.MoneyApply" >
+    <insert id="addMoney" parameterType="com.zking.model.MoneyApply">
+      insert into t_money_apply(sm_id,student_id,ma_info)
+      values(#{smId},#{studentId},#{maInfo})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.MoneyApply" >
     update t_money_apply
-    <set >
+    <set>
       <if test="smId != null" >
         sm_id = #{smId,jdbcType=INTEGER},
       </if>

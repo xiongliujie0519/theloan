@@ -31,6 +31,17 @@
     from t_student
     where student_id = #{studentId,jdbcType=INTEGER}
   </select>
+  <select id="findStudentCount" resultType="java.lang.Integer">
+    select COUNT(shooolmoney_status) from t_student where shooolmoney_status=1 and student_id in(1,2,3)
+
+  </select>
+  <select id="findStudentDKCount" resultType="java.lang.Integer">
+    select count(loans_status) from t_student
+    where loans_status=1
+  </select>
+  <select id="findStudentZXJCount" resultType="java.lang.Integer">
+    select COUNT(shooolmoney_status) from t_student where shooolmoney_status=1 and student_id in(101,102,103)
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_student
     where student_id = #{studentId,jdbcType=INTEGER}
@@ -212,4 +223,17 @@
       score_id = #{scoreId,jdbcType=INTEGER}
     where student_id = #{studentId,jdbcType=INTEGER}
   </update>
+    <update id="updateMoney">
+      update t_student
+       <set>
+         <if test="shooolmoneyStatus != null" >
+           shooolmoney_status =#{shooolmoneyStatus},
+         </if>
+         <if test="loansStatus != null" >
+           loans_status = #{loansStatus}
+         </if>
+       </set>
+       where student_id=#{studentId}
+
+    </update>
 </mapper>

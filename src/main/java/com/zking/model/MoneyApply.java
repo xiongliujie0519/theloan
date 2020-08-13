@@ -15,6 +15,16 @@ public class MoneyApply {
 
     private Integer staffId;
 
+    private  String maInfo;
+
+    public String getMaInfo() {
+        return maInfo;
+    }
+
+    public void setMaInfo(String maInfo) {
+        this.maInfo = maInfo;
+    }
+
     @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date auditdate;
 
