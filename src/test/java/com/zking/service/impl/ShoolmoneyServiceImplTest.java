@@ -21,12 +21,19 @@ public class ShoolmoneyServiceImplTest extends BaseTestCase {
         shooolmoney=new Shooolmoney();
     }
 
-    @Test
+/*    @Test
     public void list() {
         float ms = 5000f;
 //        shooolmoney.setSmMoney(ms);
         shooolmoney.setSmId(1);
         List<Shooolmoney> list = iShoolmoneyService.list(shooolmoney,pageBean);
         System.out.println(list);
-    }
+    }*/
+
+
+//    @Test
+//    public void listZxj() {
+//        List<Shooolmoney> list = iShoolmoneyService.listZxj(shooolmoney,pageBean,)
+//        System.out.println(list);
+//    }
 }
