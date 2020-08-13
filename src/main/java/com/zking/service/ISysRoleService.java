@@ -1,13 +1,15 @@
-package com.zking.mapper;
+package com.zking.service;
 
 import com.zking.model.SysRole;
 import com.zking.model.SysRoleStaff;
+import com.zking.util.PageBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository
-public interface SysRoleMapper {
+@Transactional
+public interface ISysRoleService {
     int deleteByPrimaryKey(Integer roleid);
 
     int insert(SysRole record);
@@ -20,12 +22,8 @@ public interface SysRoleMapper {
 
     int updateByPrimaryKey(SysRole record);
 
-    /**
-     * 查询角色信息
-     * @param sysRole
-     * @return
-     */
-    List<SysRole> listSysRole(SysRole sysRole);
+    @Transactional(readOnly = true)
+    List<SysRole> listSysRole(SysRole sysRole, PageBean pageBean);
 
 
     /**
@@ -47,6 +45,4 @@ public interface SysRoleMapper {
      * @return
      */
     int getMax();
-
-
 }

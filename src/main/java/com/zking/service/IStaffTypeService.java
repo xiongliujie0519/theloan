@@ -1,12 +1,13 @@
-package com.zking.mapper;
+package com.zking.service;
 
 import com.zking.model.StaffType;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@Repository
-public interface StaffTypeMapper {
+@Transactional
+public interface IStaffTypeService {
     int deleteByPrimaryKey(Integer stId);
 
     int insert(StaffType record);
@@ -23,5 +24,6 @@ public interface StaffTypeMapper {
      * 查询所有部门类型信息
      * @return
      */
+    @Transactional(readOnly = true)
     List<StaffType> findStaffTypeAll();
 }
