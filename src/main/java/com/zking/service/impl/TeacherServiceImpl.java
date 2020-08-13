@@ -13,7 +13,7 @@ public class TeacherServiceImpl implements ITeacherService {
     @Autowired
     private TeacherMapper tm;
     @Override
-    public List<Teacher> finAll(Teacher teacher, PageBean pageBean) {
+    public Teacher finAll(Teacher teacher, PageBean pageBean) {
         return tm.finAll(teacher);
     }
 }

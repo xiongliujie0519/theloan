@@ -19,5 +19,5 @@ public interface TeacherMapper {
     int updateByPrimaryKey(Teacher record);
 
     /*一对多*/
-    List<Teacher> finAll(Teacher teacher);
+    Teacher finAll(Teacher teacher);
 }

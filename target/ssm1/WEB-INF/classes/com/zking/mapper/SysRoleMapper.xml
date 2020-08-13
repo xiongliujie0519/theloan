@@ -6,10 +6,25 @@
       <idArg column="roleid" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="rolename" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="description" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="role_czr" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
+
+  <resultMap id="listSysRole" type="com.zking.model.SysRole">
+    <id column="roleid" property="roleid" javaType="java.lang.Integer"/>
+    <result column="rolename" property="rolename" javaType="java.lang.String"/>
+    <result column="description" property="description" javaType="java.lang.String"/>
+    <result column="role_czr" property="roleCzr" javaType="java.lang.String"/>
+    <result column="date" property="date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+    <association property="staffType" javaType="com.zking.model.StaffType">
+      <id column="st_id" property="stId" javaType="java.lang.Integer"/>
+      <result column="st_name" property="stName" javaType="java.lang.String"/>
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List" >
-    roleid, rolename, description
+    roleid, rolename, description, date, role_czr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -17,15 +32,32 @@
     from t_sys_role
     where roleid = #{roleid,jdbcType=INTEGER}
   </select>
+  <select id="listSysRole" resultMap="listSysRole">
+    select r.roleid,r.rolename,r.date,st.st_id,st.st_name,r.role_czr,r.description
+    from t_sys_role r
+    left join t_sys_role_staff rs
+    on r.roleid=rs.roleid
+    left join t_staff s
+    on s.staff_id=rs.staff_id
+    left join t_staff_type st
+    on s.st_id = st.st_id
+    where 1=1
+    <if test="rolename != null">
+      and rolename like CONCAT(CONCAT('%',#{rolename},'%'))
+    </if>
+  </select>
+  <select id="getMax" resultType="java.lang.Integer">
+        select max(roleid) from t_sys_role
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_role
     where roleid = #{roleid,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.zking.model.SysRole" >
-    insert into t_sys_role (roleid, rolename, description
-      )
-    values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}
-      )
+    insert into t_sys_role (roleid, rolename, description, 
+      date, role_czr)
+    values (#{roleid,jdbcType=INTEGER}, #{rolename,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP}, #{roleCzr,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zking.model.SysRole" >
     insert into t_sys_role
@@ -39,6 +71,12 @@
       <if test="description != null" >
         description,
       </if>
+      <if test="date != null" >
+        date,
+      </if>
+      <if test="roleCzr != null" >
+        role_czr,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="roleid != null" >
@@ -50,7 +88,21 @@
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
       </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleCzr != null" >
+        #{roleCzr,jdbcType=VARCHAR},
+      </if>
     </trim>
+  </insert>
+  <insert id="addSysRole" parameterType="com.zking.model.SysRole">
+        insert into t_sys_role(rolename,description)
+        values (#{rolename,jdbcType=VARCHAR},#{description,jdbcType=VARCHAR})
+  </insert>
+  <insert id="addStaff" parameterType="com.zking.model.SysRoleStaff">
+        insert into t_sys_role_staff(roleid,staff_id)
+        values(#{roleid,jdbcType=INTEGER},#{staffId,jdbcType=INTEGER})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.SysRole" >
     update t_sys_role
@@ -61,13 +113,21 @@
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
       </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+      <if test="roleCzr != null" >
+        role_czr = #{roleCzr,jdbcType=VARCHAR},
+      </if>
     </set>
     where roleid = #{roleid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.zking.model.SysRole" >
     update t_sys_role
     set rolename = #{rolename,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR}
+      description = #{description,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP},
+      role_czr = #{roleCzr,jdbcType=VARCHAR}
     where roleid = #{roleid,jdbcType=INTEGER}
   </update>
 </mapper>

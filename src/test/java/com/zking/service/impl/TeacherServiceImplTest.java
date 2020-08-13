@@ -25,10 +25,8 @@ private Teacher teacher;
     public void finAll() {
         pageBean.setRows(2);
         teacher.setTeacherId(1);
-        List<Teacher> teachers = teacherService.finAll(teacher, pageBean);
-        for (Teacher t : teachers) {
-            System.out.println(t);
-        }
+        Teacher teachers = teacherService.finAll(teacher, pageBean);
+        System.out.println(teachers);
 
     }
 }

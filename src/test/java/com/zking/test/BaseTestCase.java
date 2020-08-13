@@ -16,6 +16,7 @@ public class BaseTestCase {
 
     @Before
     public void Before(){
+
         pageBean = new PageBean();
     }
 
