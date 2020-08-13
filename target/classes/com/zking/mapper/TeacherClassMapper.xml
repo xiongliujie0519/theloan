@@ -52,7 +52,10 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.TeacherClass" >
+    <insert id="allocationTeacher">
+       insert into t_teacher_class(teacher_id,class_id)VALUES(#{teacherId},#{classId});
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.TeacherClass" >
     update t_teacher_class
     <set >
       <if test="teacherId != null" >

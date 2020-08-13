@@ -13,21 +13,20 @@
   </resultMap>
 
   <resultMap id="row" type="com.zking.model.Teacher">
-<id column="teacher_id" property="teacherId" javaType="java.lang.Integer"></id>
-<result column="teacher_name" property="teacherName" javaType="java.lang.String"></result>
-<<<<<<< HEAD
-<collection property="ListClass" ofType="com.zking.model.Class">
-=======
-<result column="user_id" property="userId" javaType="java.lang.Integer"></result>
-<result column="teacher_sex" property="teacherSex" javaType="java.lang.String"></result>
-<result column="teacher_address" property="teacherAddress" javaType="java.lang.String"/>
-<result column="teacher_tel" property="teacherTel" javaType="java.lang.String"/>
-<collection property="listClass" ofType="com.zking.model.Class">
->>>>>>> 10f56c32975e0edd71b0b563f7ad6360acbe70fe
-  <id column="class_id" property="classId" javaType="java.lang.Integer"></id>
-  <result column="class_name" property="className" javaType="java.lang.String"/>
-</collection>
-
+    <id column="teacher_id" property="teacherId" javaType="java.lang.Integer"></id>
+    <result column="teacher_name" property="teacherName" javaType="java.lang.String"></result>
+    <result column="teacher_sex" property="teacherSex" javaType="java.lang.String"></result>
+    <result column="teacher_address" property="teacherAddress" javaType="java.lang.String"></result>
+    <result column="teacher_tel" property="teacherTel" javaType="java.lang.String"></result>
+  <collection property="listClass" ofType="com.zking.model.Class">
+    <id column="class_id" property="classId" javaType="java.lang.Integer"></id>
+    <result column="class_name" property="className" javaType="java.lang.String"/>
+  </collection>
+    <collection property="sysUser" ofType="com.zking.model.SysUser">
+      <id column="userid" property="userid" javaType="java.lang.Integer"/>
+      <result column="username" property="username" javaType="java.lang.String"/>
+      <result column="password" property="password" javaType="java.lang.String"/>
+    </collection>
   </resultMap>
 
 
@@ -44,25 +43,31 @@
 
   <!--一对多查询-->
   <select id="finAll" resultMap="row">
-<<<<<<< HEAD
-
  select t.teacher_id,teacher_name,c.class_id,c.class_name from t_teacher t
 		left outer join t_teacher_class tc
         on t.teacher_id=tc.teacher_id
         left outer join t_class c on
         tc.class_id=c.class_id  where t.teacher_id=#{teacherId}
-=======
-        select t.*,c.* from t_teacher t
-		left outer join
-		t_teacher_class tc on t.teacher_id=tc.teacher_id
-		left outer join
-		t_class c on tc.class_id=c.class_id  where t.teacher_id=#{teacherId}
+  </select>
+  <select id="listckteacher" resultMap="row">
+    select <include refid="Base_Column_List"/>
+    from t_teacher where 1=1
+    <if test="teacherName != null">
+      and teacher_name like CONCAT(CONCAT('%',#{teacherName},'%'))
+    </if>
+  </select>
+  <select id="listckNamePaw" resultMap="row">
+select tt.teacher_name,tsu.`PASSWORD` from
+t_teacher tt,t_sys_user tsu where
+ tt.user_id=tsu.userid
 
->>>>>>> 10f56c32975e0edd71b0b563f7ad6360acbe70fe
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_teacher
     where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </delete>
+  <delete id="delTeacher">
+     delete from t_teacher where teacher_id=#{teacherId}
   </delete>
   <insert id="insert" parameterType="com.zking.model.Teacher" >
     insert into t_teacher (teacher_id, teacher_name, user_id, 
@@ -115,6 +120,11 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertTeacher">
+insert into t_teacher(teacher_name,teacher_sex,teacher_address,teacher_tel)
+VALUES(#{teacherName},#{teacherSex},#{teacherAddress},#{teacherTel})
+
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Teacher" >
     update t_teacher
     <set >
@@ -144,5 +154,11 @@
       teacher_address = #{teacherAddress,jdbcType=VARCHAR},
       teacher_tel = #{teacherTel,jdbcType=VARCHAR}
     where teacher_id = #{teacherId,jdbcType=INTEGER}
+  </update>
+  <update id="updateTeacher">
+     update t_teacher set
+     teacher_name=#{teacherName}, teacher_sex=#{teacherSex},teacher_address=#{teacherAddress},teacher_tel=#{teacherTel}
+      where teacher_id=#{teacherId}
+
   </update>
 </mapper>

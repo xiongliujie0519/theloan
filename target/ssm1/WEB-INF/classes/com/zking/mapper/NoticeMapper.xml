@@ -10,6 +10,19 @@
       <arg column="notice_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </constructor>
   </resultMap>
+
+  <resultMap id="row" type="com.zking.model.Notice">
+    <id column="notice_id" property="noticeId" javaType="java.lang.Integer"/>
+    <result column="notice_title" property="noticeTitle" javaType="java.lang.String"/>
+    <result column="notice_centent" property="noticeCentent" javaType="java.lang.String"/>
+    <result column="notice_date" property="noticeDate" javaType="java.util.Date"/>
+    <result column="staff_id" property="staffId" javaType="java.lang.Integer"/>
+    <association property="staff" javaType="com.zking.model.Staff">
+      <id column="staff_id" property="staffId" javaType="java.lang.Integer"/>
+      <result column="staff_name" property="staffName" javaType="java.lang.String"/>
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List" >
     notice_id, notice_title, notice_centent, staff_id, notice_date
   </sql>
@@ -19,9 +32,22 @@
     from t_notice
     where notice_id = #{noticeId,jdbcType=INTEGER}
   </select>
+  <select id="listNotice" resultMap="row">
+    select tn.notice_id,tn.notice_title,tn.notice_centent,tn.notice_date,ts.staff_name  from t_notice tn
+    left join t_staff ts
+    on tn.staff_id=ts.staff_id
+    where 1=1
+    <if test="noticeTitle != null">
+      and notice_title like CONCAT(CONCAT('%',#{noticeTitle},'%'))
+    </if>
+
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_notice
     where notice_id = #{noticeId,jdbcType=INTEGER}
+  </delete>
+  <delete id="delNotice">
+    	delete from t_notice where notice_id=#{noticeId}
   </delete>
   <insert id="insert" parameterType="com.zking.model.Notice" >
     insert into t_notice (notice_id, notice_title, notice_centent, 
@@ -66,6 +92,9 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertNotice">
+    			insert into t_notice(notice_title,notice_centent)VALUES(#{noticeTitle},#{noticeCentent})
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Notice" >
     update t_notice
     <set >
@@ -91,5 +120,8 @@
       staff_id = #{staffId,jdbcType=INTEGER},
       notice_date = #{noticeDate,jdbcType=TIMESTAMP}
     where notice_id = #{noticeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateNotice">
+    	update t_notice set notice_title=#{noticeTitle},notice_centent=#{noticeCentent} where notice_id=#{noticeId}
   </update>
 </mapper>

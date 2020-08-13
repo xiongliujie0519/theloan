@@ -70,4 +70,7 @@
       student_id = #{studentId,jdbcType=INTEGER}
     where score_id = #{scoreId,jdbcType=INTEGER}
   </update>
+    <update id="updateScore">
+       update t_score set score=#{score} where score_id=#{scoreId}
+    </update>
 </mapper>

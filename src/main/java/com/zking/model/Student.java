@@ -1,6 +1,16 @@
 package com.zking.model;
 
 public class Student {
+    private SysUser sysUser;
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
     private Integer studentId;
 
     private String studentName;
@@ -29,7 +39,16 @@ public class Student {
 
     private String studentInfo;
 
-    private Integer scoreId;
+
+    private Class aClass;
+
+    public Class getaClass() {
+        return aClass;
+    }
+
+    public void setaClass(Class aClass) {
+        this.aClass = aClass;
+    }
 
     private  Score score;
 
@@ -41,7 +60,7 @@ public class Student {
         this.score = score;
     }
 
-    public Student(Integer studentId, String studentName, Integer classId, Integer userId, String studentIdentity, String studentSex, String studentAddress, Integer studentAge, String studentAncestral, String studentTel, Integer studentStatus, Integer shooolmoneyStatus, Integer loansStatus, String studentInfo, Integer scoreId) {
+    public Student(Integer studentId, String studentName, Integer classId, Integer userId, String studentIdentity, String studentSex, String studentAddress, Integer studentAge, String studentAncestral, String studentTel, Integer studentStatus, Integer shooolmoneyStatus, Integer loansStatus, String studentInfo) {
         this.studentId = studentId;
         this.studentName = studentName;
         this.classId = classId;
@@ -56,7 +75,7 @@ public class Student {
         this.shooolmoneyStatus = shooolmoneyStatus;
         this.loansStatus = loansStatus;
         this.studentInfo = studentInfo;
-        this.scoreId = scoreId;
+
     }
 
     public Student() {
@@ -175,11 +194,5 @@ public class Student {
         this.studentInfo = studentInfo;
     }
 
-    public Integer getScoreId() {
-        return scoreId;
-    }
 
-    public void setScoreId(Integer scoreId) {
-        this.scoreId = scoreId;
-    }
 }

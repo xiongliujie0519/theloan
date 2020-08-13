@@ -48,5 +48,79 @@ public class StudentController {
         return student;
     }
 
+    //修改学生
+    @RequestMapping("updateStudent")
+    @ResponseBody
+    public int updateStudent(Student stu,Model model){
+        int i = studentService.updateStudent(stu);
+        return i;
+    }
 
+    //删除学生
+    @RequestMapping("delStudnet")
+    @ResponseBody
+    public int delStudent(Student stu,Model model){
+        int i = studentService.delStudent(stu);
+        return i;
+    }
+    //添加学生
+    @RequestMapping("InsertStudnet")
+    @ResponseBody
+    public int insertStu(Student stu,Model model){
+        int i = studentService.insertStudent(stu);
+             return i;
+    }
+    //查看学生分数
+    @RequestMapping("ScoreStudent")
+    @ResponseBody
+    public Map<String,Object> scoreStudent(Model model,Student stu,HttpServletRequest req){
+        pageBean=new PageBean();
+        pageBean.setRows(5);
+        pageBean.setRequest(req);
+        List<Student> students =  studentService.listscoreStudent(stu,pageBean);
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    Map<String,Object> map=new HashMap<>();
+        map.put("rows" ,students);
+        map.put("tools",pageBean.getTotal());
+        return  map;
+
+    }
+    //查看学生账号密码
+    @RequestMapping("finStudentNamePwd")
+    @ResponseBody
+    public Map<String,Object> finstudentNamePwd(Model model, Student stu, HttpServletRequest req){
+        pageBean=new PageBean();
+        pageBean.setRows(5);
+        pageBean.setRequest(req);
+        List<Student> students = studentService.listckNamePaw(stu,pageBean);
+        for (Student student : students) {
+            System.out.println(student);
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("rows",students);
+        map.put("tools",pageBean.getTotal());
+        return map;
+    }
+
+
+    //查看班级对应的学生信息
+    @RequestMapping("finClassStudent")
+    @ResponseBody
+    public Map<String,Object> finClassStudent(Model model, Student stu, HttpServletRequest req){
+        pageBean=new PageBean();
+        pageBean.setRows(5);
+        pageBean.setRequest(req);
+        List<Student> students = studentService.listclass(stu,pageBean);
+        for (Student student : students) {
+            System.out.println(student);
+        }
+
+        Map<String,Object> map = new HashMap<>();
+        map.put("rows",students);
+        map.put("tools",pageBean.getTotal());
+        return map;
+    }
 }

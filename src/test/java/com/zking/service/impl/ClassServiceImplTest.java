@@ -28,7 +28,46 @@ public class ClassServiceImplTest extends BaseTestCase {
         for (Class aClass : classes) {
             System.out.println(aClass);
         }
-
-
     }
+    @Test
+    public void selectTeacher(){
+        cl=new Class();
+        cl.setClassId(1);
+        Class i = iClassService.selectTeacher(cl);
+        System.out.println(i);
+    }
+    @Test
+    public void selectStudent(){
+        cl=new Class();
+        cl.setClassId(3);
+        List<Class> classes = iClassService.selectStudent(cl);
+        for (Class aClass : classes) {
+            System.out.println(aClass);
+        }
+    }
+    @Test
+    public void insertclass(){
+        cl.setClassName("T257");
+        int insertclass = iClassService.insertclass(cl);
+        int i = iClassService.maxId();
+        int i1 = iClassService.insertTeacherClass(1, i);
+        System.out.println(insertclass);
+        System.out.println(i);
+        System.out.println(i1);
+    }
+
+@Test
+    public  void updateTeacherName(){
+    int i = iClassService.updateTeacherName(1, 20);
+    System.out.println(i);
+}
+@Test
+    public void fpstudent(){
+    int fpstudent = iClassService.fpstudent(1, 6);
+    System.out.println(fpstudent);
+
+}
+
+
+
 }

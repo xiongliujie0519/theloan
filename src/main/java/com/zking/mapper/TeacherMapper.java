@@ -1,5 +1,6 @@
 package com.zking.mapper;
 
+import com.zking.model.Student;
 import com.zking.model.Teacher;
 import org.springframework.stereotype.Repository;
 
@@ -20,4 +21,18 @@ public interface TeacherMapper {
 
     /*一对多*/
     Teacher finAll(Teacher teacher);
+   //查看老师信息
+    List<Teacher> listckteacher(Teacher teacher);
+
+    //查看老师账号密码
+    List<Teacher> listckNamePaw(Teacher teacher);
+
+    //添加老师
+    int insertTeacher(Teacher teacher);
+
+    //修改老师信息
+    int updateTeacher(Teacher teacher);
+
+    //删除老师
+    int delTeacher(Teacher teacher);
 }
