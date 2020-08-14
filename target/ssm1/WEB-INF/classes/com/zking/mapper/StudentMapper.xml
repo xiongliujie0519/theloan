@@ -17,7 +17,6 @@
       <arg column="shooolmoney_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="loans_status" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="student_info" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="score_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
     </constructor>
   </resultMap>
 
@@ -36,12 +35,20 @@
       <result column="shooolmoney_status" property="shooolmoneyStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <result column="loans_status" property="loansStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <result column="student_info" property="studentInfo" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result column="score_id" property="scoreId" jdbcType="INTEGER" javaType="java.lang.Integer" />
-    <association property="score" javaType="com.zking.model.Score">
+      <association property="score" javaType="com.zking.model.Score">
       <id column="score_id" property="scoreId" javaType="java.lang.Integer"  />
       <result column="score_course" property="scoreCourse" javaType="java.lang.String"/>
       <result column="student_id" property="studentId" javaType="java.lang.Integer"/>
       <result column="score" property="score" javaType="java.lang.Integer"/>
+    </association>
+    <association property="aClass" javaType="com.zking.model.Class">
+   <id column="class_id" property="classId" javaType="java.lang.Integer"/>
+   <result column="class_name" property="className" javaType="java.lang.String"/>
+    </association>
+    <association property="sysUser" javaType="com.zking.model.SysUser">
+      <id column="userid" property="userid" javaType="java.lang.Integer"/>
+      <result column="username" property="username" javaType="java.lang.String"/>
+      <result column="password" property="password" javaType="java.lang.String"/>
     </association>
   </resultMap>
 
@@ -50,7 +57,7 @@
   <sql id="Base_Column_List" >
     student_id, student_name, class_id, user_id, student_identity, student_sex, student_address, 
     student_age, student_ancestral, student_tel, student_status, shooolmoney_status, 
-    loans_status, student_info, score_id
+    loans_status, student_info
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -59,35 +66,54 @@
     where student_id = #{studentId,jdbcType=INTEGER}
   </select>
     <select id="listStudent" resultMap="row">
-		select s.student_id,s.student_name,s.student_sex,s.student_age,s.student_tel,s.student_status,s.student_info,s.loans_status,s.shooolmoney_status,ts.* from t_student s
-		left join t_score ts
-		on s.score_id=ts.score_id where 1=1
+      select s.student_id,s.student_name,s.student_sex,s.student_age,s.student_tel,s.student_identity,s.student_address,s.student_status,s.student_info,s.loans_status,s.shooolmoney_status,ts.* ,tc.class_name,tc.class_id from t_student s
+      left join t_score ts
+      on s.student_id=ts.student_id
+      left join t_class tc
+      on s.class_id=tc.class_id
+       where 1=1
       <if test="studentName != null">
         and student_name like CONCAT(CONCAT('%',#{studentName},'%'))
       </if>
     </select>
-  <select id="selStudent" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"/>
-    from t_student where student_id=#{studentId}
+  <select id="selStudent" resultMap="row">
+    select t.*,tc.class_name,ts.score,ts.score_course from t_student t,t_class tc,t_score ts
+     where t.class_id=tc.class_id and t.student_id=ts.student_id  and t.student_id=#{studentId}
   </select>
+  <select id="scoreStudent" resultMap="row">
+select s.student_id,s.student_name,sc.score_course,sc.score
+from t_student s,t_score sc
+where s.student_id=sc.student_id
+  </select>
+    <select id="listckNamePaw" resultMap="row">
+select ts.student_name,tsu.`PASSWORD` from
+t_student ts,t_sys_user tsu where
+ ts.user_id=tsu.userid
 
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+
+    </select>
+    <select id="listclass" resultMap="row">
+        select ts.student_id,ts.student_name,tc.class_name,ts.student_sex,ts.student_age,ts.student_status,ts.loans_status,ts.shooolmoney_status,tsc.score from   t_student ts,t_class tc,t_score tsc
+ where ts.class_id=tc.class_id and
+ ts.student_id=tsc.student_id
+ and
+ tc.class_id=#{classId}
+
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_student
     where student_id = #{studentId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.zking.model.Student" >
-    insert into t_student (student_id, student_name, class_id, 
-      user_id, student_identity, student_sex, 
-      student_address, student_age, student_ancestral, 
-      student_tel, student_status, shooolmoney_status, 
-      loans_status, student_info, score_id
-      )
-    values (#{studentId,jdbcType=INTEGER}, #{studentName,jdbcType=VARCHAR}, #{classId,jdbcType=INTEGER}, 
-      #{userId,jdbcType=INTEGER}, #{studentIdentity,jdbcType=VARCHAR}, #{studentSex,jdbcType=CHAR}, 
-      #{studentAddress,jdbcType=VARCHAR}, #{studentAge,jdbcType=INTEGER}, #{studentAncestral,jdbcType=VARCHAR}, 
-      #{studentTel,jdbcType=VARCHAR}, #{studentStatus,jdbcType=INTEGER}, #{shooolmoneyStatus,jdbcType=INTEGER}, 
-      #{loansStatus,jdbcType=INTEGER}, #{studentInfo,jdbcType=VARCHAR}, #{scoreId,jdbcType=INTEGER}
-      )
+  <delete id="delStudent">
+    delete from t_student where student_id=#{studentId}
+
+  </delete>
+  <insert id="insertStudent" parameterType="com.zking.model.Student" >
+insert into t_student(student_name,student_identity,student_sex,student_address,student_age,student_ancestral,student_tel,student_info,class_id)
+values(#{studentName},#{studentIdentity},#{studentSex},#{studentAddress},#{studentAge},#{studentAncestral},#{studentTel},#{studentInfo},#{classId})
+
+
   </insert>
   <insert id="insertSelective" parameterType="com.zking.model.Student" >
     insert into t_student
@@ -252,4 +278,12 @@
       score_id = #{scoreId,jdbcType=INTEGER}
     where student_id = #{studentId,jdbcType=INTEGER}
   </update>
+    <update id="updateStudent">
+
+        update t_student set student_name=#{studentName},student_identity=#{studentIdentity},
+    student_sex=#{studentSex},student_address=#{studentAddress},student_age=#{studentAge},
+    student_tel=#{studentTel}
+    where student_id=#{studentId}
+    </update>
+
 </mapper>

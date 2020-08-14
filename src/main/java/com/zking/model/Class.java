@@ -10,8 +10,25 @@ public class Class {
 
     private String className;
 
+    private  Teacher teacher;
 
+    public Student getStudent() {
+        return student;
+    }
 
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    private  Student student;
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
 
     public Class(Integer classId, String className) {
         this.classId = classId;

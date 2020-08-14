@@ -22,5 +22,35 @@ public class StudentServiceImpl implements IStudentService {
         return studentMapper.selStudent(stu);
     }
 
+    @Override
+    public int updateStudent(Student stu) {
+        return studentMapper.updateStudent(stu);
+    }
+
+    @Override
+    public int delStudent(Student stu) {
+        return studentMapper.delStudent(stu);
+    }
+
+    @Override
+    public int insertStudent(Student stu) {
+        return studentMapper.insertStudent(stu);
+    }
+
+    @Override
+    public List<Student> listscoreStudent(Student stu,PageBean pageBean) {
+        return studentMapper.scoreStudent(stu);
+    }
+
+    @Override
+    public List<Student> listckNamePaw(Student stu,PageBean pageBean) {
+        return studentMapper.listckNamePaw(stu);
+    }
+
+    @Override
+    public List<Student> listclass(Student stu, PageBean pageBean) {
+        return studentMapper.listclass(stu);
+    }
+
 
 }

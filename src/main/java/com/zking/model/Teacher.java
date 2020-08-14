@@ -19,8 +19,28 @@ public class Teacher {
     private String teacherAddress;
 
     private String teacherTel;
+
+    private SysUser sysUser;
+
+    public SysUser getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(SysUser sysUser) {
+        this.sysUser = sysUser;
+    }
+
+    public List<Class> getListClass() {
+        return listClass;
+    }
+
+    public void setListClass(List<Class> listClass) {
+        this.listClass = listClass;
+    }
+
     /*一个老师对应多个班级*/
-    private List<Class> ListClass;
+    private List<Class> listClass;
+
     public Teacher(Integer teacherId, String teacherName, Integer userId, String teacherSex, String teacherAddress, String teacherTel) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;
@@ -82,11 +102,5 @@ public class Teacher {
         this.teacherTel = teacherTel;
     }
 
-    public List<Class> getListClass() {
-        return ListClass;
-    }
 
-    public void setListClass(List<Class> ListClass) {
-        ListClass = ListClass;
-    }
 }

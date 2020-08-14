@@ -35,6 +35,16 @@
     <association property="student" javaType="com.zking.model.Student">
       <id column="student_id" property="studentId" javaType="java.lang.Integer" />
       <result column="student_name" property="studentName" javaType="java.lang.String" />
+      <result column="shooolmoney_status" property="shooolmoneyStatus" javaType="java.lang.Integer" />
+      <result column="loans_status" property="loansStatus" javaType="java.lang.Integer" />
+
+      <result column="student_sex" property="studentSex" javaType="java.lang.String" />
+      <result column="student_address" property="studentAddress" javaType="java.lang.String" />
+      <result column="student_age" property="studentAge" javaType="java.lang.Integer" />
+      <result column="student_tel" property="studentTel" javaType="java.lang.String" />
+      <result column="student_status" property="studentStatus" javaType="java.lang.Integer" />
+      <result column="student_info" property="studentInfo" javaType="java.lang.String" />
+
     </association>
 
   </resultMap>
@@ -50,8 +60,36 @@
     from t_shooolmoney
     where sm_id = #{smId,jdbcType=INTEGER}
   </select>
-    <select id="list" resultMap="row" >
-      select * from t_shooolmoney t_s
+
+  <select id="listZxj" resultMap="row">
+    select * from t_shooolmoney sm
+    left join t_money_type mt
+    on sm.mt_id=mt.mt_id
+    where 1=1
+    and sm.mt_id in(#{mtId1},#{mtId2},#{mtId3})
+      <if test="shooolmoney.smId != null">
+        and sm.sm_id like CONCAT(CONCAT('%',#{shooolmoney.smId},'%'))
+      </if>
+  </select>
+  <select id="findMoneyById" resultMap="row">
+    select * from t_shooolmoney t_s
+      inner join
+      t_money_type t_m_t
+      on
+      t_s.sm_id=t_m_t.mt_id
+      inner join
+      t_money_apply t_m_a
+      on
+      t_m_t.mt_id=t_m_a.ma_id
+      inner join
+      t_student t_stu
+      on
+      t_s.sm_id=t_stu.student_id
+      where t_s.sm_id=#{smId}
+
+  </select>
+  <select id="listMoney" resultMap="row">
+    select * from t_shooolmoney t_s
       inner join
       t_money_type t_m_t
       on
@@ -65,11 +103,8 @@
       on
       t_s.sm_id=t_stu.student_id
       where 1=1
-      <if test="shooolmoney.smId != null">
-        and t_s.sm_id like CONCAT(CONCAT('%',#{shooolmoney.smId},'%'))
-      </if>
-    </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_shooolmoney
     where sm_id = #{smId,jdbcType=INTEGER}
   </delete>
@@ -116,9 +151,10 @@
       </if>
     </trim>
   </insert>
+
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Shooolmoney" >
     update t_shooolmoney
-    <set >
+    <set>
       <if test="mtId != null" >
         mt_id = #{mtId,jdbcType=INTEGER},
       </if>

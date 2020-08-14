@@ -7,6 +7,23 @@
       <arg column="class_name" jdbcType="VARCHAR" javaType="java.lang.String" />
     </constructor>
   </resultMap>
+
+  <resultMap id="row" type="com.zking.model.Class">
+    <id column="class_id" property="classId" javaType="java.lang.Integer"/>
+    <result column="class_name" property="className" javaType="java.lang.String"/>
+    <association  property="teacher" javaType="com.zking.model.Teacher">
+      <id column="teacher_id" property="teacherId" javaType="java.lang.Integer"/>
+      <result column="teacher_name" property="teacherName" javaType="java.lang.String"/>
+    </association>
+    <association  property="student" javaType="com.zking.model.Student">
+      <id column="student_id" property="studentId" javaType="java.lang.Integer"/>
+      <result column="student_name" property="studentName" javaType="java.lang.String"/>
+    </association>
+  </resultMap>
+
+
+
+
   <sql id="Base_Column_List" >
     class_id, class_name
   </sql>
@@ -16,11 +33,32 @@
     from t_class
     where class_id = #{classId,jdbcType=INTEGER}
   </select>
-    <select id="listClass" resultMap="BaseResultMap">
-      select <include refid="Base_Column_List"/>
-      from t_class
+    <select id="listClass" resultMap="row">
+	select tc.class_id,tc.class_name,tt.teacher_name,tt.teacher_id from t_class tc left join t_teacher_class ttc on tc.class_id=ttc.class_id
+	left join t_teacher tt on tt.teacher_id=ttc.teacher_id
     </select>
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectTeacher" resultMap="row">
+    select t.teacher_name,t.teacher_id,tc.class_id
+    from t_teacher t,t_class tc,t_teacher_class ttc
+    where t.teacher_id=ttc.teacher_id
+    and tc.class_id=ttc.class_id
+    and tc.class_id=#{classId}
+
+
+    </select>
+  <select id="selectStudent" resultMap="row">
+select ts.student_name from
+ t_student ts,t_class tc where
+  ts.class_id=tc.class_id and
+  tc.class_id=#{classId}
+
+
+
+  </select>
+  <select id="maxId" resultType="java.lang.Integer">
+    select max(class_id) from t_class;
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_class
     where class_id = #{classId,jdbcType=INTEGER}
   </delete>
@@ -47,6 +85,12 @@
       </if>
     </trim>
   </insert>
+  <insert id="insertclass">
+insert into t_class(class_name)VALUES(#{className});
+  </insert>
+  <insert id="insertTeacherClass">
+     insert into t_teacher_class(teacher_id,class_id)VALUES(#{teacherId},#{classId})
+  </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Class" >
     update t_class
     <set >
@@ -61,4 +105,11 @@
     set class_name = #{className,jdbcType=VARCHAR}
     where class_id = #{classId,jdbcType=INTEGER}
   </update>
+  <update id="updateTeacherName">
+     update t_teacher_class set teacher_id=#{teacherId} where  class_id=#{classId}
+  </update>
+  <update id="fpstudent">
+    update  t_student set class_id=#{classId} where student_id=#{studentId}
+  </update>
+
 </mapper>

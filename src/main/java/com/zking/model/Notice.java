@@ -1,5 +1,7 @@
 package com.zking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Notice {
@@ -10,9 +12,18 @@ public class Notice {
     private String noticeCentent;
 
     private Integer staffId;
-
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date noticeDate;
 
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    private Staff staff;
     public Notice(Integer noticeId, String noticeTitle, String noticeCentent, Integer staffId, Date noticeDate) {
         this.noticeId = noticeId;
         this.noticeTitle = noticeTitle;

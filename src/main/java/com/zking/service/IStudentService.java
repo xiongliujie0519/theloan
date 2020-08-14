@@ -11,4 +11,10 @@ public interface IStudentService  {
     List<Student> listStudent(Student stu, PageBean pageBean);
 
     Student selStudent(Student stu);
+    int updateStudent(Student stu);
+    int delStudent(Student stu);
+    int insertStudent(Student stu);
+    List<Student> listscoreStudent(Student stu,PageBean pageBean);
+    List<Student> listckNamePaw(Student stu,PageBean pageBean);
+    List<Student> listclass(Student stu,PageBean pageBean);
 }

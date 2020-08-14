@@ -1,7 +1,10 @@
 package com.zking.mapper;
 
+import com.zking.model.Teacher;
 import com.zking.model.TeacherClass;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TeacherClassMapper {
     int deleteByPrimaryKey(Integer tcId);
 
@@ -14,4 +17,6 @@ public interface TeacherClassMapper {
     int updateByPrimaryKeySelective(TeacherClass record);
 
     int updateByPrimaryKey(TeacherClass record);
+
+    int allocationTeacher(TeacherClass teacherClass);
 }
