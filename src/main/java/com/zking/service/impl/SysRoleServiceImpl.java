@@ -90,4 +90,14 @@ public class SysRoleServiceImpl implements ISysRoleService {
     public SysRole loadByRoleid(SysRole sysRole) {
         return sysRoleMapper.loadByRoleid(sysRole);
     }
+
+    @Override
+    public int updateRoleCzr(SysRole sysRole) {
+        return sysRoleMapper.updateRoleCzr(sysRole);
+    }
+
+    @Override
+    public List<SysRole> findAll() {
+        return sysRoleMapper.findAll();
+    }
 }

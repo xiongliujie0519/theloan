@@ -35,18 +35,26 @@
         </if>
     </select>
   <select id="queryModuleByPid" resultMap="BaseResultMap">
-        		select p.* from t_sys_role r
+				select p.* from t_sys_user u
+                left join t_sys_user_role ur
+                on u.userid=ur.userid
+				left join t_sys_role r
+                on ur.roleid=r.roleid
 				left join t_sys_role_permission rp
 				on r.roleid=rp.roleid
 				left join t_sys_permission p
-				on rp.perid=p.perid where pid=#{pid}
+				on rp.perid=p.perid where 1=1 and  p.pid=#{pid} and u.username=#{username}
   </select>
   <select id="queryModuleByperid" resultType="com.zking.model.SysPermission">
-                 select p.* from t_sys_role r
+                select p.* from t_sys_user u
+                left join t_sys_user_role ur
+                on u.userid=ur.userid
+				left join t_sys_role r
+                on ur.roleid=r.roleid
 				left join t_sys_role_permission rp
 				on r.roleid=rp.roleid
 				left join t_sys_permission p
-				on rp.perid=p.perid where pid=#{pid}
+				on rp.perid=p.perid where 1=1 and  p.pid=#{pid} and u.username=#{username}
   </select>
   <select id="queryNode" resultMap="BaseResultMap">
     select * from t_sys_permission where pid=-1

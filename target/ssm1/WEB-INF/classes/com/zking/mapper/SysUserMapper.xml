@@ -9,6 +9,7 @@
       <arg column="salt" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="createdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="userstate" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+      <arg column="userczr" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </constructor>
   </resultMap>
   <resultMap id="row" type="com.zking.model.SysUser">
@@ -18,6 +19,7 @@
     <result column="salt" property="salt" javaType="java.lang.String"/>
     <result column="createdate" property="createdate" javaType="java.util.Date"/>
     <result column="userstate" property="userstate" javaType="java.lang.Integer"/>
+    <result column="userczr" property="userczr" javaType="java.lang.String"/>
     <association property="sysRole" javaType="com.zking.model.SysRole">
       <id column="roleid" property="roleid" javaType="java.lang.Integer"/>
       <result column="rolename" property="rolename" javaType="java.lang.String"/>
@@ -25,9 +27,25 @@
       <result column="role_czr" property="roleCzr" javaType="java.lang.String"/>
       <result column="date" property="date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
     </association>
+    <association property="staffType" javaType="com.zking.model.StaffType">
+        <id column="st_id" property="stId" javaType="java.lang.Integer"/>
+        <result column="st_name" property="stName" javaType="java.lang.String"/>
+    </association>
+    <association property="userRole" javaType="com.zking.model.SysUserRole">
+      <id column="urid" property="urid" javaType="java.lang.Integer"/>
+      <result column="roleid" property="roleid" javaType="java.lang.Integer"/>
+      <result column="userid" property="userid" javaType="java.lang.Integer" />
+    </association>
   </resultMap>
+
+  <resultMap id="row1" type="com.zking.model.SysUser">
+    <id column="userid" property="userid" javaType="java.lang.Integer"/>
+    <result column="username" property="username" javaType="java.lang.String"/>
+    <result column="PASSWORD" property="password" javaType="java.lang.String"/>
+  </resultMap>
+
   <sql id="Base_Column_List" >
-    userid, username, PASSWORD, salt, createdate,userstate
+    userid, username, PASSWORD, salt, createdate,userstate,userczr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -35,7 +53,7 @@
     from t_sys_user
     where userid = #{userid,jdbcType=INTEGER}
   </select>
-  <select id="userLogin" resultType="com.zking.model.SysUser">
+  <select id="userLogin" resultMap="row1">
     select <include refid="Base_Column_List"/>
     from t_sys_user where 1=1 and username=#{username} and userstate=1
   </select>
@@ -57,7 +75,29 @@
     left join t_sys_user_role ur
     on u.userid=ur.userid
     left join t_sys_role r
-    on ur.roleid=r.roleid   ORDER BY  u.userid ASC
+    on ur.roleid=r.roleid
+    where 1=1
+    <if test="username!=null">
+      and u.username like CONCAT(CONCAT('%',#{username},'%'))
+    </if>
+    ORDER BY  u.userid ASC
+  </select>
+  <select id="loadSysUserByid" resultMap="row">
+        select u.*,ur.* from t_sys_user u
+        left join t_sys_user_role ur
+        on u.userid=ur.userid where u.userid=#{userid};
+  </select>
+  <select id="findUserByid" resultMap="row">
+        select u.*,r.*,sst.* from t_sys_user u
+        left outer join t_sys_user_role ur
+        on u.userid=ur.userid
+        left outer join t_sys_role r
+        on r.roleid=ur.roleid
+        left join t_sys_role_staff st
+        on r.roleid=st.roleid
+        left join t_staff_type sst
+        on st.st_id=sst.st_id
+        where u.username=#{username}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_user
@@ -139,4 +179,16 @@
       createdate = #{createdate,jdbcType=TIMESTAMP}
     where userid = #{userid,jdbcType=INTEGER}
   </update>
+  <update id="userStart">
+    update t_sys_user set userstate=1
+    where userid=#{userid} and userstate=0
+  </update>
+  <update id="userStop">
+    update t_sys_user set userstate=0
+    where userid=#{userid} and userstate=1
+  </update>
+    <update id="updateUserCzr">
+       update t_sys_user set userczr=#{userczr}
+       where userid=#{userid}
+    </update>
 </mapper>

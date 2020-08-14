@@ -33,10 +33,10 @@ public interface ISysPermissionService {
 
     /**
      * 根据根节点pid查询它的子id
-     * @param pid
+     * @param
      * @param sysPermission
      */
-    void queryModuleByPid(Integer pid , SysPermission sysPermission);
+    void queryModuleByPid(Integer pid,SysPermission sysPermission,String username);
 
 
     /**

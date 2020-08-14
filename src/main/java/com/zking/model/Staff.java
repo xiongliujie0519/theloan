@@ -9,6 +9,57 @@ public class Staff {
 
     private String staffName;
 
+
+    public String getStaffCzr() {
+        return staffCzr;
+    }
+
+    public void setStaffCzr(String staffCzr) {
+        this.staffCzr = staffCzr;
+    }
+
+    public Integer getStaffSex() {
+        return staffSex;
+    }
+
+    public void setStaffSex(Integer staffSex) {
+        this.staffSex = staffSex;
+    }
+
+    private Integer staffSex;
+
+    private String staffCzr;
+
+    public StaffType getStaffType() {
+        return staffType;
+    }
+
+    public void setStaffType(StaffType staffType) {
+        this.staffType = staffType;
+    }
+
+    private  StaffType staffType;
+
+    public SysRole getSysRole() {
+        return sysRole;
+    }
+
+    public void setSysRole(SysRole sysRole) {
+        this.sysRole = sysRole;
+    }
+
+    private SysRole sysRole;
+
+    public StaffRole getStaffRole() {
+        return staffRole;
+    }
+
+    public void setStaffRole(StaffRole staffRole) {
+        this.staffRole = staffRole;
+    }
+
+    private StaffRole staffRole;
+
     public Staff(Integer staffId, Integer userId, Integer stId, String staffName) {
         this.staffId = staffId;
         this.userId = userId;

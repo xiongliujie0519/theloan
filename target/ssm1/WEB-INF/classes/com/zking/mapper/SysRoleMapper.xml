@@ -43,6 +43,7 @@
     <if test="rolename != null">
       and rolename like CONCAT(CONCAT('%',#{rolename},'%'))
     </if>
+    ORDER BY  r.roleid ASC
   </select>
   <select id="getMax" resultType="java.lang.Integer">
         select max(roleid) from t_sys_role
@@ -54,7 +55,10 @@
       left join t_staff_type st
       on rs.st_id=st.st_id where r.roleid=#{roleid};
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="findAll" resultMap="listSysRole">
+      select roleid,rolename from t_sys_role ORDER BY roleid asc
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_role
     where roleid = #{roleid,jdbcType=INTEGER}
   </delete>
@@ -149,4 +153,7 @@
     update t_sys_role_staff set st_id=#{stId}
      where roleid=#{roleid}
   </update>
+    <update id="updateRoleCzr">
+        update t_sys_role set role_czr=#{roleCzr} where roleid=#{roleid}
+    </update>
 </mapper>

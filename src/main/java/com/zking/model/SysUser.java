@@ -16,6 +16,16 @@ public class SysUser {
     @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date createdate;
 
+    private String userczr;
+
+    public String getUserczr() {
+        return userczr;
+    }
+
+    public void setUserczr(String userczr) {
+        this.userczr = userczr;
+    }
+
     public SysRole getSysRole() {
         return sysRole;
     }
@@ -36,7 +46,26 @@ public class SysUser {
 
     private Integer userstate;
 
+    public StaffType getStaffType() {
+        return staffType;
+    }
 
+    public void setStaffType(StaffType staffType) {
+        this.staffType = staffType;
+    }
+
+    private StaffType staffType;
+
+
+    private SysUserRole userRole;
+
+    public SysUserRole getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(SysUserRole userRole) {
+        this.userRole = userRole;
+    }
 
     public SysUser(Integer userid, String username, String password, String salt, Date createdate) {
         this.userid = userid;

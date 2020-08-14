@@ -90,4 +90,18 @@ public interface SysRoleMapper {
     SysRole loadByRoleid(SysRole sysRole);
 
 
+    /**
+     * 根据roleid修改操作人
+     * @param sysRole
+     * @return
+     */
+    int updateRoleCzr(SysRole sysRole);
+
+
+    /**
+     * 查询出roleid和rolename
+     * @return
+     */
+    List<SysRole> findAll();
+
 }

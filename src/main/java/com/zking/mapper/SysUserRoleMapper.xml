@@ -52,7 +52,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.SysUserRole" >
+    <insert id="insertUserRole">
+      insert into t_sys_user_role(userid,roleid)
+      values (#{userid},#{roleid})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.SysUserRole" >
     update t_sys_user_role
     <set >
       <if test="userid != null" >
@@ -70,4 +74,10 @@
       roleid = #{roleid,jdbcType=INTEGER}
     where urid = #{urid,jdbcType=INTEGER}
   </update>
+    <update id="updateUserRole">
+        update t_sys_user_role
+            set userid = #{userid,jdbcType=INTEGER},
+            roleid = #{roleid,jdbcType=INTEGER}
+        where urid = #{urid,jdbcType=INTEGER}
+    </update>
 </mapper>

@@ -71,4 +71,26 @@ public interface ISysUserService {
      * @return
      */
     int userStop(SysUser sysUser);
+
+
+    /**
+     * 根据userid查看用户信息
+     * @param sysUser
+     * @return
+     */
+    SysUser loadSysUserByid(SysUser sysUser);
+
+    /**
+     * 根据uesrid修改用户操作人
+     * @param sysUser
+     * @return
+     */
+    int updateUserCzr(SysUser sysUser);
+
+    /**
+     * 根据userid查询用户个人信息
+     * @param sysUser
+     * @return
+     */
+    SysUser findUserByid(SysUser sysUser);
 }

@@ -65,7 +65,7 @@
         <!-- enable*ByExample是否生成 example类 -->
 
 
-        <table schema="" tableName="t_sys_role_staff" domainObjectName="SysRoleStaff"
+        <table schema="" tableName="t_staff_role" domainObjectName="StaffRole"
                enableCountByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" enableUpdateByExample="false">
             <!-- 忽略列，不生成bean 字段 -->

@@ -154,4 +154,21 @@ public class SysRoleController {
         return map;
     }
 
+    /**
+     * 查询出roleid和rolename
+     * @return
+     */
+    @RequestMapping("findAll")
+    @ResponseBody
+    public Map<String,Object> findAll(){
+        Map<String,Object> map = new HashMap<>();
+        List<SysRole> all = sysRoleService.findAll();
+        if(all!=null){
+            map.put("rows",all);
+        }else{
+            map.put("msg","no");
+        }
+        return map;
+    }
+
 }

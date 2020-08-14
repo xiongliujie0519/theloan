@@ -7,10 +7,33 @@
       <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="st_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="staff_name" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="staff_sex" jdbcType="INTEGER" javaType="java.lang.String"/>
+      <arg column="staff_czr" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </constructor>
   </resultMap>
+
+  <resultMap id="row" type="com.zking.model.Staff" >
+      <id column="staff_id" property="staffId" javaType="java.lang.Integer" />
+      <result column="user_id" property="userId" javaType="java.lang.Integer" />
+      <result column="st_id" property="stId" javaType="java.lang.Integer" />
+      <result column="staff_name" property="staffName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="staff_sex" property="staffSex" jdbcType="INTEGER" javaType="java.lang.Integer"/>
+      <result column="staff_czr" property="staffCzr" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    <association property="sysRole" javaType="com.zking.model.SysRole">
+      <id column="roleid" property="roleid" javaType="java.lang.Integer"/>
+      <result column="rolename" property="rolename" javaType="java.lang.String"/>
+    </association>
+    <association property="staffType" javaType="com.zking.model.StaffType">
+      <id column="st_id" property="stId" javaType="java.lang.Integer"/>
+      <result column="st_name" property="stName" javaType="java.lang.String"/>
+    </association>
+    <association property="staffRole" javaType="com.zking.model.StaffRole">
+      <id column="sr_id" property="srId" javaType="java.lang.Integer"/>
+    </association>
+  </resultMap>
+
   <sql id="Base_Column_List" >
-    staff_id, user_id, st_id, staff_name
+    staff_id, user_id, st_id, staff_name,staff_sex,staff_czr
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -18,9 +41,36 @@
     from t_staff
     where staff_id = #{staffId,jdbcType=INTEGER}
   </select>
+    <select id="listStaffAll" resultMap="row">
+      select s.*,r.*,st.* from t_staff s
+      left join t_staff_type st
+      on s.st_id=st.st_id
+      left join t_staff_role sr
+      on sr.staff_id=s.staff_id
+      left join t_sys_role  r
+      on sr.role_id=r.roleid where 1=1
+      <if test="staffName!=null">
+          and s.staff_name like CONCAT(CONCAT('%',#{staffName},'%'))
+      </if>
+    </select>
+  <select id="getStaffByStaffId" resultMap="row">
+         select s.*,r.*,st.*,sr.sr_id from t_staff s
+          left join t_staff_type st
+          on s.st_id=st.st_id
+          left join t_staff_role sr
+          on sr.staff_id=s.staff_id
+          left join t_sys_role  r
+          on sr.role_id=r.roleid where  1=1 and s.staff_id=#{staffId}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_staff
     where staff_id = #{staffId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteStaff">
+    delete from t_staff where staff_id=#{staffId}
+  </delete>
+  <delete id="deleteStaffRole">
+    delete from t_staff_role where staff_id=#{staffId}
   </delete>
   <insert id="insert" parameterType="com.zking.model.Staff" >
     insert into t_staff (staff_id, user_id, st_id,
@@ -59,7 +109,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Staff" >
+    <insert id="insertStaff">
+      insert into t_staff(staff_name,staff_sex,st_id)
+      values(#{staffName},#{staffSex},#{stId});
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Staff" >
     update t_staff
     <set >
       <if test="userId != null" >
@@ -81,4 +135,13 @@
       staff_name = #{staffName,jdbcType=VARCHAR}
     where staff_id = #{staffId,jdbcType=INTEGER}
   </update>
+  <update id="updateStaff">
+    update t_staff set staff_name=#{staffName},
+    staff_sex=#{staffSex},st_id=#{stId}
+    where staff_id=#{staffId}
+  </update>
+    <update id="updateStaffCzr">
+      update t_staff set staff_czr=#{staffCzr}
+      where staff_id=#{staffId}
+    </update>
 </mapper>

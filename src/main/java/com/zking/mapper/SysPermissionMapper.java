@@ -33,16 +33,16 @@ public interface SysPermissionMapper {
 
     /**
      * 根据根节点pid查询它的子id
-     * @param pid
+     * @param
      * @param sysPermission
      */
-    void queryModuleByPid(Integer pid , SysPermission sysPermission);
+    void queryModuleByPid(@Param("pid") Integer pid, SysPermission sysPermission,@Param("username") String username);
 
     /**
      * 根据根节点pid查询它的子id
-     * @param pid
+     * @param
      */
-    List<SysPermission> queryModuleByperid(Integer pid);
+    List<SysPermission> queryModuleByperid(@Param("pid") Integer pid,SysPermission sysPermission,@Param("username") String username);
 
 
 

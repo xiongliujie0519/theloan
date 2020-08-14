@@ -81,5 +81,20 @@ public class SysUserServiceImpl implements ISysUserService {
         return sysUserMapper.userStop(sysUser);
     }
 
+    @Override
+    public SysUser loadSysUserByid(SysUser sysUser) {
+        return sysUserMapper.loadSysUserByid(sysUser);
+    }
+
+    @Override
+    public int updateUserCzr(SysUser sysUser) {
+        return sysUserMapper.updateUserCzr(sysUser);
+    }
+
+    @Override
+    public SysUser findUserByid(SysUser sysUser) {
+        return sysUserMapper.findUserByid(sysUser);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.zking.controller;
 
+import com.auth0.jwt.internal.org.bouncycastle.asn1.ocsp.ResponseData;
 import com.zking.model.SysUser;
 import com.zking.service.ISysUserService;
 import com.zking.shiro.PasswordHelper;
@@ -43,6 +44,7 @@ public class SysUserController {
     @RequestMapping(value = "/userlogin",method = RequestMethod.POST)
     @ResponseBody
     public Map<String,Object> userLogin(SysUser sysUser, Model model){
+
         Map<String,Object> map = new HashMap<>();
 
         //拿到shiro的主体对象
@@ -52,7 +54,6 @@ public class SysUserController {
                 sysUser.getUsername(),
                 sysUser.getPassword()
         );
-
         String msg = null;
         try {
             subject.login(token);
@@ -64,7 +65,9 @@ public class SysUserController {
                 msg = "该用户已经被禁用无法进行登录";
         }
         if(null == msg){
-            map.put("msg",1);
+            if(sysUser!=null){
+                map.put("msg",sysUser);
+            }
             return map;
         }else{
             map.put("msg",msg);
@@ -149,6 +152,47 @@ public class SysUserController {
             map.put("index",1);
         }else{
             map.put("index",0);
+        }
+        return map;
+    }
+
+
+    /**
+     * 根据usreid查询用户信息
+     * @param model
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping("loadSysUserByid")
+    @ResponseBody
+    public Map<String,Object> loadSysUserByid(Model model ,SysUser sysUser){
+        Map<String,Object> map = new HashMap<>();
+        SysUser user = sysUserService.loadSysUserByid(sysUser);
+        if(user!=null){
+            map.put("msg",user);
+        }else{
+            map.put("msg","no");
+        }
+        return map;
+    }
+
+
+
+    /**
+     * 根据findeuserbyid查询出用户个人信息
+     * @param model
+     * @param sysUser
+     * @return
+     */
+    @RequestMapping("findUserByid")
+    @ResponseBody
+    public Map<String,Object> findUserByid(Model model,SysUser sysUser){
+        Map<String,Object> map = new HashMap<>();
+        SysUser userByid = sysUserService.findUserByid(sysUser);
+        if(userByid!=null){
+            map.put("msg",userByid);
+        }else{
+            map.put("msg","no");
         }
         return map;
     }
