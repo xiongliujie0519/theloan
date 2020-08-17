@@ -1,9 +1,11 @@
 package com.zking.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class MoneyApply {
     private Integer maId;
 
@@ -25,16 +27,24 @@ public class MoneyApply {
         this.maInfo = maInfo;
     }
 
-    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
-    private Date auditdate;
+    private String auditdate;
 
-    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
-    private Date disposedate;
+    private String disposedate;
+
+    private Integer caiwuId;
+
+    public Integer getCaiwuId() {
+        return caiwuId;
+    }
+
+    public void setCaiwuId(Integer caiwuId) {
+        this.caiwuId = caiwuId;
+    }
 
     @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date applydate;
 
-    public MoneyApply(Integer maId, Integer smId, Integer tcId, Integer studentId, Integer staffId, Date auditdate, Date disposedate, Date applydate) {
+    public MoneyApply(Integer maId, Integer smId, Integer tcId, Integer studentId, Integer staffId, String auditdate, String disposedate, Date applydate) {
         this.maId = maId;
         this.smId = smId;
         this.tcId = tcId;
@@ -89,19 +99,19 @@ public class MoneyApply {
         this.staffId = staffId;
     }
 
-    public Date getAuditdate() {
+    public String getAuditdate() {
         return auditdate;
     }
 
-    public void setAuditdate(Date auditdate) {
+    public void setAuditdate(String auditdate) {
         this.auditdate = auditdate;
     }
 
-    public Date getDisposedate() {
+    public String getDisposedate() {
         return disposedate;
     }
 
-    public void setDisposedate(Date disposedate) {
+    public void setDisposedate(String disposedate) {
         this.disposedate = disposedate;
     }
 

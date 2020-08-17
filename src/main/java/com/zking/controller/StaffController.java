@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.rmi.MarshalledObject;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,6 +103,44 @@ public class StaffController {
             map.put("msg",1);
         }else{
             map.put("msg",0);
+        }
+        return map;
+    }
+
+    @RequestMapping("selectStaffLie")
+    @ResponseBody
+    public Map<String,Object> selectStaffLie(Model model, Staff staff){
+        Map<String,Object> map = new HashMap<>();
+        Staff sta = staffService.selectStaffLie(staff);
+        staff.setStaffId(sta.getStaffId());
+        if(sta.getUserId()!=null){
+            map.put("msg","该员工已被绑定");
+        }else{
+            int staid = staffService.updateStaffLie(staff);
+            if(staid>0){
+                map.put("msg",1);
+            }
+            System.out.println(sta);
+        }
+        return map;
+    }
+
+
+    /**
+     * 根据userid查询出员工id
+     * @param model
+     * @param staff
+     * @return
+     */
+    @RequestMapping("getStaffId")
+    @ResponseBody
+    public Map<String,Object> getStaffId(Model model,Staff staff){
+        Map<String,Object> map = new HashMap<>();
+        Staff staffId = staffService.getStaffId(staff);
+        if(staffId!=null){
+            map.put("msg",staffId);
+        }else{
+            map.put("msg","no");
         }
         return map;
     }

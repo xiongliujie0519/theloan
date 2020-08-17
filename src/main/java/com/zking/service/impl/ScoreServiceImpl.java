@@ -16,4 +16,9 @@ public class ScoreServiceImpl implements IScoreService {
     public int updateScore(Score score) {
         return scoreMapper.updateScore(score);
     }
+
+    @Override
+    public int insertSelective(Score record) {
+        return scoreMapper.insertSelective(record);
+    }
 }

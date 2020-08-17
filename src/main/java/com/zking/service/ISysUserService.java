@@ -93,4 +93,18 @@ public interface ISysUserService {
      * @return
      */
     SysUser findUserByid(SysUser sysUser);
+
+    /**
+     * 根据username查询出用户和学生信息
+     * @param sysUser
+     * @return
+     */
+    SysUser findByUserandStudent(SysUser sysUser);
+
+    /**
+     * 通过用户名拿到员工id
+     * @param sysUser
+     * @return
+     */
+    SysUser findBystId(SysUser sysUser);
 }

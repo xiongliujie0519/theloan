@@ -29,7 +29,18 @@ public class ScoreController {
      return i;
     }
 
-
+    @RequestMapping("insertScore")
+    @ResponseBody
+    public Map<String,Object> insertScore(Model model,Score score){
+        Map<String,Object> map = new HashMap<>();
+        int i = iScoreService.insertSelective(score);
+        if(i>0){
+            map.put("index",1);
+        }else{
+            map.put("index",0);
+        }
+        return map;
+    }
 
 
 }

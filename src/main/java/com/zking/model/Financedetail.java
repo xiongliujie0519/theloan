@@ -1,10 +1,13 @@
 package com.zking.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class Financedetail {
     private Integer fdId;
 
+    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
     private Date fdDate;
 
     private String fdType;
@@ -12,6 +15,26 @@ public class Financedetail {
     private String fdInfo;
 
     private Integer staffId;
+
+    private  Integer maId;
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    private  Staff staff;
+
+    public Integer getMaId() {
+        return maId;
+    }
+
+    public void setMaId(Integer maId) {
+        this.maId = maId;
+    }
 
     public Financedetail(Integer fdId, Date fdDate, String fdType, String fdInfo, Integer staffId) {
         this.fdId = fdId;

@@ -52,5 +52,30 @@ public class StudentServiceImpl implements IStudentService {
         return studentMapper.listclass(stu);
     }
 
+    @Override
+    public Student findStudent(Student student, String className) {
+        return studentMapper.findStudentByid(student,className);
+    }
+
+    @Override
+    public int updateStudentUserid(Student student) {
+        return studentMapper.updateStudentUserid(student);
+    }
+
+    @Override
+    public int updatewtg(Student student) {
+        return studentMapper.updatewtg(student);
+    }
+
+    @Override
+    public int updateytg(Student student) {
+        return studentMapper.updateytg(student);
+    }
+
+    @Override
+    public int updatecaiwu(Student student) {
+        return studentMapper.updatecaiwu(student);
+    }
+
 
 }

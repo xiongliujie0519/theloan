@@ -3,21 +3,38 @@
 <mapper namespace="com.zking.mapper.FinancedetailMapper" >
   <resultMap id="BaseResultMap" type="com.zking.model.Financedetail" >
     <constructor >
-      <idArg column="fd_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <idArg column="fd_id"  jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="fd_date" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="fd_type" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="fd_info" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="staff_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <arg column="ma_id" jdbcType="INTEGER" javaType="java.lang.Integer"/>
     </constructor>
   </resultMap>
+  <resultMap id="row" type="com.zking.model.Financedetail" >
+      <id column="fd_id"  property="fdId" javaType="java.lang.Integer" />
+      <result column="fd_date" property="fdDate" javaType="java.util.Date" />
+      <result column="fd_type" property="fdType" javaType="java.lang.String" />
+      <result column="fd_info" property="fdInfo" javaType="java.lang.String" />
+      <result column="staff_id" property="staffId" javaType="java.lang.Integer" />
+      <result column="ma_id" property="maId" javaType="java.lang.Integer"/>
+      <association property="staff" javaType="com.zking.model.Staff">
+        <result  column="staff_name" property="staffName" javaType="java.lang.String"/>
+      </association>
+  </resultMap>
   <sql id="Base_Column_List" >
-    fd_id, fd_date, fd_type, fd_info, staff_id
+    fd_id, fd_date, fd_type, fd_info, staff_id,ma_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
     from t_financedetail
     where fd_id = #{fdId,jdbcType=INTEGER}
+  </select>
+  <select id="listAll" resultMap="row">
+    select f.*,s.staff_name from t_financedetail f
+	left join t_staff s
+	on f.staff_id=s.staff_id
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_financedetail
@@ -66,7 +83,11 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Financedetail" >
+    <insert id="insertInfo">
+      	insert into t_financedetail(fd_type,fd_info,staff_id,ma_id)
+      	values(#{fdType},#{fdInfo},#{staffId},#{maId})
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Financedetail" >
     update t_financedetail
     <set >
       <if test="fdDate != null" >

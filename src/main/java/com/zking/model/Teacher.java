@@ -41,6 +41,57 @@ public class Teacher {
     /*一个老师对应多个班级*/
     private List<Class> listClass;
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    private Student student;
+
+    public Class getClassa() {
+        return classa;
+    }
+
+    public void setClassa(Class classa) {
+        this.classa = classa;
+    }
+
+    private Class classa;
+
+
+    private  MoneyApply  moneyApply;
+
+    public MoneyApply getMoneyApply() {
+        return moneyApply;
+    }
+
+    public void setMoneyApply(MoneyApply moneyApply) {
+        this.moneyApply = moneyApply;
+    }
+
+    private MoneyType moneyType;
+
+    public MoneyType getMoneyType() {
+        return moneyType;
+    }
+
+    public void setMoneyType(MoneyType moneyType) {
+        this.moneyType = moneyType;
+    }
+
+    private  Shooolmoney shooolmoney;
+
+    public Shooolmoney getShooolmoney() {
+        return shooolmoney;
+    }
+
+    public void setShooolmoney(Shooolmoney shooolmoney) {
+        this.shooolmoney = shooolmoney;
+    }
+
     public Teacher(Integer teacherId, String teacherName, Integer userId, String teacherSex, String teacherAddress, String teacherTel) {
         this.teacherId = teacherId;
         this.teacherName = teacherName;

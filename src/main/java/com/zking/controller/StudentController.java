@@ -123,4 +123,33 @@ public class StudentController {
         map.put("tools",pageBean.getTotal());
         return map;
     }
+
+
+    /**
+     * 绑定学生
+     * @param model
+     * @param
+     * @return
+     */
+    @RequestMapping("StudentBind")
+    @ResponseBody
+    public Map<String,Object> StudentBind(Model model,Student student,HttpServletRequest request){
+        Map<String,Object> map = new HashMap<>();
+        String className = request.getParameter("className");
+        System.out.println(className);
+        Student studentId = studentService.findStudent(student, className);
+        System.out.println(student);
+        student.setStudentId(studentId.getStudentId());
+        int i = studentService.updateStudentUserid(student);
+        if(studentId.getUserId()!=null){
+            map.put("msg","该学生已被绑定");
+        }else{
+            if(i>0){
+                map.put("msg",1);
+            }else{
+                map.put("msg",0);
+            }
+        }
+        return map;
+    }
 }

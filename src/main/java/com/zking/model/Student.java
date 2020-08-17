@@ -1,5 +1,7 @@
 package com.zking.model;
 
+import lombok.ToString;
+@ToString
 public class Student {
     private SysUser sysUser;
 

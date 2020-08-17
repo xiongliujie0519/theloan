@@ -3,6 +3,7 @@ package com.zking.service.impl;
 import com.zking.mapper.StudentMapper;
 import com.zking.model.Student;
 import com.zking.service.IStudentMoneyService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

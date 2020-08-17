@@ -1,6 +1,7 @@
 package com.zking.mapper;
 
 import com.zking.model.Staff;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -67,4 +68,13 @@ public interface StaffMapper {
      * @return
      */
     int deleteStaffRole(Staff staff);
+
+    //查询员工列
+    Staff selectStaffLie(@Param("staff") Staff staff);
+
+    //修改员工列信息
+    int updateStaffLie(Staff staff);
+
+    //根据usrid查询出员工id
+    Staff getStaffId(Staff staff);
 }

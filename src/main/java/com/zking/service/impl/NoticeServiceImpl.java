@@ -36,4 +36,9 @@ public class NoticeServiceImpl implements INoticeService {
     public List<Notice> listnotice(Notice notice, PageBean pageBean) {
         return noticeMapper.listnotice(notice);
     }
+
+    @Override
+    public List<Notice> indexNotice() {
+        return noticeMapper.indexNotice();
+    }
 }

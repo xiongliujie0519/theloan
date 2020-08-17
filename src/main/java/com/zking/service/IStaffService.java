@@ -68,4 +68,11 @@ public interface IStaffService {
      * @return
      */
     int deleteStaffRole(Staff staff);
+
+    Staff selectStaffLie(Staff staff);
+
+    int updateStaffLie(Staff staff);
+
+    //根据usrid查询出员工id
+    Staff getStaffId(Staff staff);
 }

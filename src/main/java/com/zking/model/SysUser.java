@@ -1,9 +1,11 @@
 package com.zking.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class SysUser {
     private Integer userid;
 
@@ -56,12 +58,31 @@ public class SysUser {
 
     private StaffType staffType;
 
+    private  Staff staff;
+
+    public Staff getStaff() {
+        return staff;
+    }
+
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
 
     private SysUserRole userRole;
 
     public SysUserRole getUserRole() {
         return userRole;
     }
+
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
+    private Student student;
 
     public void setUserRole(SysUserRole userRole) {
         this.userRole = userRole;

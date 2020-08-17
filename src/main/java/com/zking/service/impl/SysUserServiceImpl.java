@@ -96,5 +96,15 @@ public class SysUserServiceImpl implements ISysUserService {
         return sysUserMapper.findUserByid(sysUser);
     }
 
+    @Override
+    public SysUser findByUserandStudent(SysUser sysUser) {
+        return sysUserMapper.findByUserandStudent(sysUser);
+    }
+
+    @Override
+    public SysUser findBystId(SysUser sysUser) {
+        return sysUserMapper.findBystId(sysUser);
+    }
+
 
 }

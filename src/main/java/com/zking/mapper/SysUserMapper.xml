@@ -42,6 +42,22 @@
     <id column="userid" property="userid" javaType="java.lang.Integer"/>
     <result column="username" property="username" javaType="java.lang.String"/>
     <result column="PASSWORD" property="password" javaType="java.lang.String"/>
+    <result column="salt" property="salt" javaType="java.lang.String"/>
+    <association property="student" javaType="com.zking.model.Student">
+      <id column="student_id" property="studentId" javaType="java.lang.Integer"/>
+      <result column="shooolmoney_status"  property="shooolmoneyStatus" javaType="java.lang.Integer"/>
+      <result column="loans_status" property="loansStatus" javaType="java.lang.Integer"/>
+    </association>
+  </resultMap>
+
+  <resultMap id="row2" type="com.zking.model.SysUser">
+    <id column="userid" property="userid" javaType="java.lang.Integer"/>
+    <result column="username" property="username" javaType="java.lang.String"/>
+    <result column="PASSWORD" property="password" javaType="java.lang.String"/>
+    <result column="salt" property="salt" javaType="java.lang.String"/>
+    <association property="staff" javaType="com.zking.model.Staff">
+      <id column="staff_id" property="staffId" javaType="java.lang.Integer"/>
+    </association>
   </resultMap>
 
   <sql id="Base_Column_List" >
@@ -99,7 +115,20 @@
         on st.st_id=sst.st_id
         where u.username=#{username}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="findByUserandStudent" resultMap="row1">
+            select u.username,u.`PASSWORD`,s.student_id,
+             s.shooolmoney_status,s.loans_status
+            from t_sys_user u
+            left join t_student s
+            on u.userid=s.user_id
+            where u.username=#{username}
+    </select>
+    <select id="findBystId" resultMap="row2">
+        select st.staff_id from t_sys_user s
+        left join t_staff st
+        on s.userid=st.user_id  where s.username=#{username}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_sys_user
     where userid = #{userid,jdbcType=INTEGER}
   </delete>

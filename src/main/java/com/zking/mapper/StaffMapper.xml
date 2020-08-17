@@ -7,11 +7,13 @@
       <arg column="user_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="st_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="staff_name" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <arg column="staff_sex" jdbcType="INTEGER" javaType="java.lang.String"/>
+      <arg column="staff_sex" jdbcType="INTEGER" javaType="java.lang.Integer"/>
       <arg column="staff_czr" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </constructor>
   </resultMap>
-
+  <resultMap id="rowa" type="com.zking.model.Staff">
+    <id column="staff_id" property="staffId" javaType="java.lang.Integer"/>
+  </resultMap>
   <resultMap id="row" type="com.zking.model.Staff" >
       <id column="staff_id" property="staffId" javaType="java.lang.Integer" />
       <result column="user_id" property="userId" javaType="java.lang.Integer" />
@@ -61,6 +63,15 @@
           on sr.staff_id=s.staff_id
           left join t_sys_role  r
           on sr.role_id=r.roleid where  1=1 and s.staff_id=#{staffId}
+  </select>
+  <select id="selectStaffLie" resultMap="rowa">
+      select staff_id from t_staff
+      where staff_id=#{staff.staffId,jdbcType=INTEGER} and staff_name=#{staff.staffName,jdbcType=VARCHAR}
+    </select>
+  <select id="getStaffId" resultMap="rowa">
+    select s.staff_id from t_sys_user u
+      left join t_staff s
+    on u.userid=s.user_id  where u.userid=#{userId}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_staff
@@ -144,4 +155,7 @@
       update t_staff set staff_czr=#{staffCzr}
       where staff_id=#{staffId}
     </update>
+  <update id="updateStaffLie">
+    update t_staff set user_id=#{userId} where staff_id=#{staffId}
+  </update>
 </mapper>

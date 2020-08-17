@@ -61,6 +61,16 @@ public class NoticeController {
     }
 
 
-
+    //首页显示公告
+    @RequestMapping("indexNotice")
+    @ResponseBody
+    public Map<String,Object> indexNotice(){
+        Map<String,Object> map = new HashMap<>();
+        List<Notice> notices = iNoticeService.indexNotice();
+        if (notices!=null){
+            map.put("rows",notices);
+        }
+        return map;
+    }
 
 }

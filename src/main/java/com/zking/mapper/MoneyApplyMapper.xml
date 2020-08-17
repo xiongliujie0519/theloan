@@ -8,8 +8,8 @@
       <arg column="tc_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="student_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
       <arg column="staff_id" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <arg column="auditdate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
-      <arg column="disposedate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <arg column="auditdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <arg column="disposedate" jdbcType="VARCHAR" javaType="java.lang.String" />
       <arg column="applydate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
       <arg column="ma_info" jdbcType="VARCHAR" javaType="java.lang.String"/>
     </constructor>
@@ -32,8 +32,8 @@
       student_id, staff_id, auditdate, 
       disposedate, applydate)
     values (#{maId,jdbcType=INTEGER}, #{smId,jdbcType=INTEGER}, #{tcId,jdbcType=INTEGER}, 
-      #{studentId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{auditdate,jdbcType=TIMESTAMP}, 
-      #{disposedate,jdbcType=TIMESTAMP}, #{applydate,jdbcType=TIMESTAMP})
+      #{studentId,jdbcType=INTEGER}, #{staffId,jdbcType=INTEGER}, #{auditdate,jdbcType=VARCHAR},
+      #{disposedate,jdbcType=VARCHAR}, #{applydate,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.zking.model.MoneyApply" >
     insert into t_money_apply
@@ -80,10 +80,10 @@
         #{staffId,jdbcType=INTEGER},
       </if>
       <if test="auditdate != null" >
-        #{auditdate,jdbcType=TIMESTAMP},
+        #{auditdate,jdbcType=VARCHAR},
       </if>
       <if test="disposedate != null" >
-        #{disposedate,jdbcType=TIMESTAMP},
+        #{disposedate,jdbcType=VARCHAR},
       </if>
       <if test="applydate != null" >
         #{applydate,jdbcType=TIMESTAMP},
@@ -110,10 +110,10 @@
         staff_id = #{staffId,jdbcType=INTEGER},
       </if>
       <if test="auditdate != null" >
-        auditdate = #{auditdate,jdbcType=TIMESTAMP},
+        auditdate = #{auditdate,jdbcType=VARCHAR},
       </if>
       <if test="disposedate != null" >
-        disposedate = #{disposedate,jdbcType=TIMESTAMP},
+        disposedate = #{disposedate,jdbcType=VARCHAR},
       </if>
       <if test="applydate != null" >
         applydate = #{applydate,jdbcType=TIMESTAMP},
@@ -127,12 +127,21 @@
       tc_id = #{tcId,jdbcType=INTEGER},
       student_id = #{studentId,jdbcType=INTEGER},
       staff_id = #{staffId,jdbcType=INTEGER},
-      auditdate = #{auditdate,jdbcType=TIMESTAMP},
-      disposedate = #{disposedate,jdbcType=TIMESTAMP},
+      auditdate = #{auditdate,jdbcType=VARCHAR},
+      disposedate = #{disposedate,jdbcType=VARCHAR},
       applydate = #{applydate,jdbcType=TIMESTAMP}
     where ma_id = #{maId,jdbcType=INTEGER}
   </update>
     <update id="updateJiangxuejin">
 
     </update>
+  <update id="teachershenhei">
+    update t_money_apply set tc_id=#{teacherId},auditdate=#{moneyApply.auditdate} where ma_id=#{moneyApply.maId}
+  </update>
+    <update id="renshishenhei">
+       update t_money_apply set staff_id=#{staffId},auditdate=#{moneyApply.auditdate} where ma_id=#{moneyApply.maId}
+    </update>
+  <update id="caiwuchuli">
+    update t_money_apply set caiwu_id=#{staffId},disposedate=#{moneyApply.disposedate} where ma_id=#{moneyApply.maId}
+  </update>
 </mapper>

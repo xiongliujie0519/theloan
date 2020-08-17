@@ -21,29 +21,29 @@
   </resultMap>
 
   <resultMap id="row" type="com.zking.model.Student" >
-      <id column="student_id"  property="studentId" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="student_name" property="studentName" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result column="class_id" property="classId" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="user_id" property="userId" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="student_identity" property="studentIdentity" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result column="student_sex" property="studentSex" jdbcType="CHAR" javaType="java.lang.String" />
-      <result column="student_address" property="studentAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result column="student_age" property="studentAge" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="student_ancestral" property="studentAncestral" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result column="student_tel" property="studentTel" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <result column="student_status" property="studentStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="shooolmoney_status" property="shooolmoneyStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="loans_status" property="loansStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
-      <result column="student_info" property="studentInfo" jdbcType="VARCHAR" javaType="java.lang.String" />
-      <association property="score" javaType="com.zking.model.Score">
+    <id column="student_id"  property="studentId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="student_name" property="studentName" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="class_id" property="classId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="student_identity" property="studentIdentity" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="student_sex" property="studentSex" jdbcType="CHAR" javaType="java.lang.String" />
+    <result column="student_address" property="studentAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="student_age" property="studentAge" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="student_ancestral" property="studentAncestral" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="student_tel" property="studentTel" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <result column="student_status" property="studentStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="shooolmoney_status" property="shooolmoneyStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="loans_status" property="loansStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+    <result column="student_info" property="studentInfo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    <association property="score" javaType="com.zking.model.Score">
       <id column="score_id" property="scoreId" javaType="java.lang.Integer"  />
       <result column="score_course" property="scoreCourse" javaType="java.lang.String"/>
       <result column="student_id" property="studentId" javaType="java.lang.Integer"/>
       <result column="score" property="score" javaType="java.lang.Integer"/>
     </association>
     <association property="aClass" javaType="com.zking.model.Class">
-   <id column="class_id" property="classId" javaType="java.lang.Integer"/>
-   <result column="class_name" property="className" javaType="java.lang.String"/>
+      <id column="class_id" property="classId" javaType="java.lang.Integer"/>
+      <result column="class_name" property="className" javaType="java.lang.String"/>
     </association>
     <association property="sysUser" javaType="com.zking.model.SysUser">
       <id column="userid" property="userid" javaType="java.lang.Integer"/>
@@ -55,27 +55,27 @@
 
 
   <sql id="Base_Column_List" >
-    student_id, student_name, class_id, user_id, student_identity, student_sex, student_address, 
-    student_age, student_ancestral, student_tel, student_status, shooolmoney_status, 
+    student_id, student_name, class_id, user_id, student_identity, student_sex, student_address,
+    student_age, student_ancestral, student_tel, student_status, shooolmoney_status,
     loans_status, student_info
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from t_student
     where student_id = #{studentId,jdbcType=INTEGER}
   </select>
-    <select id="listStudent" resultMap="row">
-      select s.student_id,s.student_name,s.student_sex,s.student_age,s.student_tel,s.student_identity,s.student_address,s.student_status,s.student_info,s.loans_status,s.shooolmoney_status,ts.* ,tc.class_name,tc.class_id from t_student s
-      left join t_score ts
-      on s.student_id=ts.student_id
-      left join t_class tc
-      on s.class_id=tc.class_id
-       where 1=1
-      <if test="studentName != null">
-        and student_name like CONCAT(CONCAT('%',#{studentName},'%'))
-      </if>
-    </select>
+  <select id="listStudent" resultMap="row">
+    select s.student_id,s.student_name,s.student_sex,s.student_age,s.student_tel,s.student_identity,s.student_address,s.student_status,s.student_info,s.loans_status,s.shooolmoney_status,ts.* ,tc.class_name,tc.class_id from t_student s
+    left join t_score ts
+    on s.student_id=ts.student_id
+    left join t_class tc
+    on s.class_id=tc.class_id
+    where 1=1
+    <if test="studentName != null">
+      and student_name like CONCAT(CONCAT('%',#{studentName},'%'))
+    </if>
+  </select>
   <select id="selStudent" resultMap="row">
     select t.*,tc.class_name,ts.score,ts.score_course from t_student t,t_class tc,t_score ts
      where t.class_id=tc.class_id and t.student_id=ts.student_id  and t.student_id=#{studentId}
@@ -85,14 +85,12 @@ select s.student_id,s.student_name,sc.score_course,sc.score
 from t_student s,t_score sc
 where s.student_id=sc.student_id
   </select>
-    <select id="listckNamePaw" resultMap="row">
-select ts.student_name,tsu.`PASSWORD` from
+  <select id="listckNamePaw" resultMap="row">
+select ts.student_name,tsu.`PASSWORD`,tsu.username from
 t_student ts,t_sys_user tsu where
  ts.user_id=tsu.userid
-
-
     </select>
-    <select id="listclass" resultMap="row">
+  <select id="listclass" resultMap="row">
         select ts.student_id,ts.student_name,tc.class_name,ts.student_sex,ts.student_age,ts.student_status,ts.loans_status,ts.shooolmoney_status,tsc.score from   t_student ts,t_class tc,t_score tsc
  where ts.class_id=tc.class_id and
  ts.student_id=tsc.student_id
@@ -101,7 +99,7 @@ t_student ts,t_sys_user tsu where
 
     </select>
 
-    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_student
     where student_id = #{studentId,jdbcType=INTEGER}
   </delete>
@@ -278,7 +276,7 @@ values(#{studentName},#{studentIdentity},#{studentSex},#{studentAddress},#{stude
       score_id = #{scoreId,jdbcType=INTEGER}
     where student_id = #{studentId,jdbcType=INTEGER}
   </update>
-    <update id="updateStudent">
+  <update id="updateStudent">
 
         update t_student set student_name=#{studentName},student_identity=#{studentIdentity},
     student_sex=#{studentSex},student_address=#{studentAddress},student_age=#{studentAge},
@@ -286,4 +284,106 @@ values(#{studentName},#{studentIdentity},#{studentSex},#{studentAddress},#{stude
     where student_id=#{studentId}
     </update>
 
+
+  <update id="updateMoney">
+    update t_student
+    <set>
+      <if test="shooolmoneyStatus != null" >
+        shooolmoney_status =#{shooolmoneyStatus},
+      </if>
+      <if test="loansStatus != null" >
+        loans_status = #{loansStatus}
+      </if>
+    </set>
+    where student_id=#{studentId}
+  </update>
+  <update id="updateStudentUserid">
+          update t_student set user_id=#{userId} where student_id=#{studentId}
+  </update>
+
+  <update id="updatewtg">
+      update t_student
+    <set>
+      <if test="student.shooolmoneyStatus==2">
+        shooolmoney_status=0
+      </if>
+      <if test="student.loansStatus==2">
+        loans_status=0
+      </if>
+    </set>
+      where student_id=#{student.studentId}
+    </update>
+  <update id="updateytg">
+    update t_student
+    <set>
+      <if test="student.shooolmoneyStatus==2">
+        shooolmoney_status=1
+      </if>
+      <if test="student.loansStatus==2">
+        loans_status=1
+      </if>
+    </set>
+    where student_id=#{student.studentId}
+    <!--<if test="student.shooolmoneyStatus==2">
+      and shooolmoney_status=2
+    </if>
+    <if test="student.loansStatus==2">
+      and loans_status=2
+    </if>-->
+  </update>
+  <update id="updatecaiwu">
+    	update t_student
+    <set>
+      <if test="student.shooolmoneyStatus==1">
+        shooolmoney_status=3
+      </if>
+      <if test="student.loansStatus==1">
+        loans_status=3
+      </if>
+    </set>
+    	where student_id=#{student.studentId} and shooolmoney_status=1
+  </update>
+
+  <select id="findStudentCount" resultType="java.lang.Integer">
+
+		select count(s.shooolmoney_status) from t_money_apply ma
+		left join t_shooolmoney sm
+		on ma.sm_id=sm.sm_id
+		left join t_money_type mt
+		on mt.mt_id=sm.mt_id
+		left join t_student  s
+		on s.student_id=ma.student_id
+		where s.shooolmoney_status=3 and mt.mt_id in(1,2,3);
+  </select>
+
+  <select id="findStudentDKCount" resultType="java.lang.Integer">
+
+		select count(s.shooolmoney_status) from t_money_apply ma
+		left join t_shooolmoney sm
+		on ma.sm_id=sm.sm_id
+		left join t_money_type mt
+		on mt.mt_id=sm.mt_id
+		left join t_student  s
+		on s.student_id=ma.student_id
+		where s.loans_status=3 and mt.mt_id in(201,202,203);
+  </select>
+  <select id="findStudentZXJCount" resultType="java.lang.Integer">
+    select count(s.shooolmoney_status) from t_money_apply ma
+		left join t_shooolmoney sm
+		on ma.sm_id=sm.sm_id
+		left join t_money_type mt
+		on mt.mt_id=sm.mt_id
+		left join t_student  s
+		on s.student_id=ma.student_id
+		where s.shooolmoney_status=3 and mt.mt_id in(101,102,103);
+  </select>
+
+  <select id="findStudentByid" resultMap="row">
+        select s.* from t_student s
+        left join t_class tc
+        on s.class_id=tc.class_id
+        where s.student_name=#{student.studentName}
+        and tc.class_name=#{className}
+        and s.student_identity=#{student.studentIdentity}
+  </select>
 </mapper>

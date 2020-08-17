@@ -29,7 +29,52 @@
     </collection>
   </resultMap>
 
-
+  <resultMap id="row1" type="com.zking.model.Teacher">
+    <id column="teacher_id" property="teacherId" javaType="java.lang.Integer"></id>
+    <result column="teacher_name" property="teacherName" javaType="java.lang.String"></result>
+    <result column="teacher_sex" property="teacherSex" javaType="java.lang.String"></result>
+    <result column="teacher_address" property="teacherAddress" javaType="java.lang.String"></result>
+    <result column="teacher_tel" property="teacherTel" javaType="java.lang.String"></result>
+    <association property="student" javaType="com.zking.model.Student">
+      <id column="student_id"  property="studentId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_name" property="studentName" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="class_id" property="classId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="user_id" property="userId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_identity" property="studentIdentity" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_sex" property="studentSex" jdbcType="CHAR" javaType="java.lang.String" />
+      <result column="student_address" property="studentAddress" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_age" property="studentAge" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_ancestral" property="studentAncestral" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_tel" property="studentTel" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="student_status" property="studentStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="shooolmoney_status" property="shooolmoneyStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="loans_status" property="loansStatus" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_info" property="studentInfo" jdbcType="VARCHAR" javaType="java.lang.String" />
+    </association>
+    <association property="classa" javaType="com.zking.model.Class">
+      <id column="class_id" property="classId" javaType="java.lang.Integer"/>
+      <result column="class_name" property="className" javaType="java.lang.String"/>
+    </association>
+    <association property="moneyApply" javaType="com.zking.model.MoneyApply">
+      <id column="ma_id" property="maId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="sm_id" property="smId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="tc_id" property="tcId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="student_id" property="studentId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="staff_id" property="staffId" jdbcType="INTEGER" javaType="java.lang.Integer" />
+      <result column="auditdate" property="auditdate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="disposedate" property="disposedate" jdbcType="VARCHAR" javaType="java.lang.String" />
+      <result column="applydate" property="applydate" jdbcType="TIMESTAMP" javaType="java.util.Date" />
+      <result column="ma_info" property="maInfo" jdbcType="VARCHAR" javaType="java.lang.String"/>
+    </association>
+    <association property="moneyType" javaType="com.zking.model.MoneyType">
+      <id column="mt_id" property="mtId" javaType="java.lang.Integer"/>
+      <result column="mt_name" property="mtName" javaType="java.lang.String"/>
+    </association>
+    <association property="shooolmoney" javaType="com.zking.model.Shooolmoney">
+      <id column="sm_id" property="smId" javaType="java.lang.Integer"/>
+      <result column="sm_money" property="smMoney" javaType="java.lang.Float"/>
+    </association>
+  </resultMap>
 
   <sql id="Base_Column_List" >
     teacher_id, teacher_name, user_id, teacher_sex, teacher_address, teacher_tel
@@ -57,12 +102,83 @@
     </if>
   </select>
   <select id="listckNamePaw" resultMap="row">
-select tt.teacher_name,tsu.`PASSWORD` from
-t_teacher tt,t_sys_user tsu where
- tt.user_id=tsu.userid
-
+    select tt.teacher_name,tsu.`PASSWORD`,tsu.username from
+    t_teacher tt,t_sys_user tsu where
+     tt.user_id=tsu.userid
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="teachershen" resultMap="row1">
+      select s.*,ma.ma_id,ma.sm_id,ma.applydate,ma.ma_info,c.class_name,mt.mt_name,t.teacher_id,sm.sm_money from t_money_apply ma
+            left join t_shooolmoney sm
+            on ma.sm_id=sm.sm_id
+            left join t_money_type mt
+            on sm.mt_id=mt.mt_id
+            left join t_student s
+            on ma.student_id=s.student_id
+            left join t_class c
+            on s.class_id=c.class_id
+            left join t_teacher_class tc
+            on c.class_id=tc.class_id
+            left join t_teacher t
+            on tc.teacher_id=t.teacher_id
+		    where 1=1 and t.teacher_id=1 and mt.mt_name like CONCAT(CONCAT('%',#{mtName},'%'))
+		    <if test="student.shooolmoneyStatus==2">
+                and s.shooolmoney_status=2
+            </if>
+            <if test="student.loansStatus==2">
+                and s.loans_status=2
+            </if>
+    </select>
+  <select id="selectTeacherLie" resultMap="BaseResultMap">
+      select * from t_teacher where teacher_id=#{teacherId}
+      and teacher_name=#{teacherName}
+      and teacher_tel=#{teacherTel}
+    </select>
+  <select id="getByuserId" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/> from t_teacher
+         where user_id=#{userId}
+  </select>
+    <select id="renshishen" resultMap="row1">
+            select s.*,ma.ma_id,ma.sm_id,ma.applydate,ma.ma_info,c.class_name,mt.mt_name,t.teacher_id,sm.sm_money from t_money_apply ma
+            left join t_shooolmoney sm
+            on ma.sm_id=sm.sm_id
+            left join t_money_type mt
+            on sm.mt_id=mt.mt_id
+            left join t_student s
+            on ma.student_id=s.student_id
+            left join t_class c
+            on s.class_id=c.class_id
+            left join t_teacher_class tc
+            on c.class_id=tc.class_id
+            left join t_teacher t
+            on tc.teacher_id=t.teacher_id
+		    where 1=1 and ma.tc_id!=0	and mt.mt_name like CONCAT(CONCAT('%',#{mtName},'%'))
+            <if test="student.shooolmoneyStatus==2">
+                and s.shooolmoney_status=1
+            </if>
+            <if test="student.loansStatus==2">
+                and s.loans_status=1
+            </if>
+    </select>
+    <select id="caiwushen" resultMap="row1">
+         select s.*,ma.ma_id,ma.sm_id,ma.applydate,ma.ma_info,ma.auditdate,ma.disposedate,c.class_name,
+         mt.mt_name,t.teacher_id,sm.sm_money from t_money_apply ma
+            left join t_shooolmoney sm
+            on ma.sm_id=sm.sm_id
+            left join t_money_type mt
+            on sm.mt_id=mt.mt_id
+            left join t_student s
+            on ma.student_id=s.student_id
+            left join t_class c
+            on s.class_id=c.class_id
+            left join t_teacher_class tc
+            on c.class_id=tc.class_id
+            left join t_teacher t
+            on tc.teacher_id=t.teacher_id
+		where 1=1 and ma.tc_id!=0 and  ma.staff_id!=0	 and s.shooolmoney_status=1 or s.loans_status=1
+		and mt.mt_name like CONCAT(CONCAT('%',#{mtName},'%'))
+
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_teacher
     where teacher_id = #{teacherId,jdbcType=INTEGER}
   </delete>
@@ -159,6 +275,8 @@ VALUES(#{teacherName},#{teacherSex},#{teacherAddress},#{teacherTel})
      update t_teacher set
      teacher_name=#{teacherName}, teacher_sex=#{teacherSex},teacher_address=#{teacherAddress},teacher_tel=#{teacherTel}
       where teacher_id=#{teacherId}
-
+  </update>
+  <update id="updateTeacherLie">
+    update t_teacher set user_id=#{userId} where teacher_id=#{teacherId}
   </update>
 </mapper>

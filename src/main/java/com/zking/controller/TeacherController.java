@@ -91,4 +91,108 @@ public class TeacherController {
         return i;
 
     }
+
+    /**
+     * 老师审核
+     * @param model
+     * @param teacher
+     * @return
+     */
+    @RequestMapping("teachershen")
+    @ResponseBody
+    public Map<String,Object> teachershen(Model model ,Teacher teacher,PageBean pageBean,HttpServletRequest req,Student student){
+        pageBean.setRows(4);
+        pageBean.setRequest(req);
+        String mtName = req.getParameter("mtName");
+        Map<String,Object> map = new HashMap<>();
+        List<Teacher> teachershens = iTeacherService.listteachershen(teacher,pageBean,mtName,student);
+        System.out.println(student);
+        if(teachershens!=null){
+            map.put("rows",teachershens);
+            map.put("total",pageBean.getTotal());
+        }else{
+            map.put("msg","no");
+        }
+        return map;
+    }
+
+
+    /**
+     * 人事审核
+     * @param model
+     * @param teacher
+     * @return
+     */
+    @RequestMapping("renshishen")
+    @ResponseBody
+    public Map<String,Object> renshishen(Model model ,Teacher teacher,PageBean pageBean,HttpServletRequest req,Student student){
+        pageBean.setRows(4);
+        pageBean.setRequest(req);
+        String mtName = req.getParameter("mtName");
+        Map<String,Object> map = new HashMap<>();
+        List<Teacher> teachershens = iTeacherService.listrenshishen(teacher,mtName,pageBean,student);
+        if(teachershens!=null){
+            map.put("rows",teachershens);
+            map.put("total",pageBean.getTotal());
+        }else{
+            map.put("msg","no");
+        }
+        return map;
+    }
+
+    @RequestMapping("caiwushen")
+    @ResponseBody
+    public Map<String,Object> caiwushen(Model model, String mtName,PageBean pageBean,HttpServletRequest req){
+        Map<String,Object> map  = new HashMap<>();
+        pageBean.setRequest(req);
+        List<Teacher> caiwushen = iTeacherService.listcaiwushen(mtName,pageBean);
+        if(caiwushen!=null){
+            map.put("rows",caiwushen);
+            map.put("total",pageBean.getTotal());
+        }else{
+            map.put("msg","no");
+        }
+        return map;
+    }
+
+    @RequestMapping("selectTeacherLie")
+    @ResponseBody
+    public Map<String,Object> selectTeacherLie(Model model, Teacher teacher){
+        Map<String,Object> map = new HashMap<>();
+        Teacher tea = iTeacherService.selectTeacherLie(teacher);
+        teacher.setTeacherId(tea.getTeacherId());
+        int i = iTeacherService.updateTeacherLie(teacher);
+        System.out.println(tea);
+        if(tea.getTeacherId()!=null){
+            map.put("msg","该老师被绑定");
+        }else{
+            if(i>0){
+                map.put("msg",1);
+            }else{
+                map.put("msg",0);
+            }
+        }
+        return map;
+    }
+
+    /**根据userid查询老师id
+     *
+     * @param model
+     * @param teacher
+     * @return
+     */
+    @RequestMapping("getByuserId")
+    @ResponseBody
+    public Map<String,Object> getByuserId(Model model,Teacher teacher){
+        Map<String,Object> map = new HashMap<>();
+        Teacher byuserId = iTeacherService.getByuserId(teacher);
+        System.out.println(byuserId);
+        if(byuserId!=null){
+            map.put("row",byuserId);
+        }else{
+            map.put("msg","no");
+        }
+        return map;
+    }
+
 }

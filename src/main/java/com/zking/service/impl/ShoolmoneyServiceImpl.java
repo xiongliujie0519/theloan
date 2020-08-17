@@ -1,5 +1,6 @@
 package com.zking.service.impl;
 
+import com.github.pagehelper.Page;
 import com.zking.mapper.ShooolmoneyMapper;
 import com.zking.model.Shooolmoney;
 import com.zking.service.IShoolmoneyService;
@@ -29,12 +30,32 @@ public class ShoolmoneyServiceImpl implements IShoolmoneyService {
     }
 
     @Override
-    public Shooolmoney findMoneyById(Integer smId) {
-        return shooolmoneyMapper.findMoneyById(smId);
+    public Shooolmoney findMoneyById(Integer maId) {
+        return shooolmoneyMapper.findMoneyById(maId);
+    }
+
+    @Override
+    public Shooolmoney findMoneySQById(Integer smId) {
+        return shooolmoneyMapper.findMoneySQById(smId);
     }
 
     @Override
     public List<Shooolmoney> listMoney() {
         return shooolmoneyMapper.listMoney();
+    }
+
+    @Override
+    public List<Shooolmoney> listShooolmoneyAll(Shooolmoney shooolmoney, String mtName, PageBean pageBean) {
+        return shooolmoneyMapper.listShooolmoneyAll(shooolmoney,mtName);
+    }
+
+    @Override
+    public int insert(Shooolmoney shooolmoney) {
+        return shooolmoneyMapper.insert(shooolmoney);
+    }
+
+    @Override
+    public int updateStatus(Shooolmoney shooolmoney) {
+        return shooolmoneyMapper.updateStatus(shooolmoney);
     }
 }

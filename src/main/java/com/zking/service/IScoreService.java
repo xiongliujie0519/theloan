@@ -7,4 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface IScoreService  {
     int updateScore(Score score);
+
+    int insertSelective(Score record);
 }

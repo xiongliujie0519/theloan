@@ -51,6 +51,12 @@
       and notice_title like CONCAT(CONCAT('%',#{noticeTitle},'%'))
     </if>
   </select>
+  <select id="indexNotice" resultMap="row">
+    select tn.notice_id,tn.notice_title,tn.notice_centent,tn.notice_date,ts.staff_name  from t_notice tn
+    left join t_staff ts
+    on tn.staff_id=ts.staff_id
+    where 1=1  ORDER BY notice_id desc limit 5
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_notice
     where notice_id = #{noticeId,jdbcType=INTEGER}
@@ -102,7 +108,7 @@
     </trim>
   </insert>
   <insert id="insertNotice">
-    			insert into t_notice(notice_title,notice_centent)VALUES(#{noticeTitle},#{noticeCentent})
+    			insert into t_notice(notice_title,notice_centent,staff_id)VALUES(#{noticeTitle},#{noticeCentent},#{staffId})
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.zking.model.Notice" >
     update t_notice

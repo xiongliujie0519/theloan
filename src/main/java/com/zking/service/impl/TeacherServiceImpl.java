@@ -1,5 +1,6 @@
 package com.zking.service.impl;
 
+import com.github.pagehelper.Page;
 import com.zking.mapper.TeacherMapper;
 import com.zking.model.Student;
 import com.zking.model.Teacher;
@@ -43,5 +44,35 @@ public class TeacherServiceImpl implements ITeacherService {
         return tm.delTeacher(teacher);
     }
 
+    @Override
+    public  List<Teacher> listteachershen(Teacher teacher,PageBean pageBean,String mtName,Student student) {
+        return tm.teachershen(teacher,mtName,student);
+    }
 
+    @Override
+    public List<Teacher> listrenshishen(Teacher teacher, String mtName,PageBean pageBean,Student student) {
+        return tm.renshishen(teacher,mtName,student);
+    }
+
+    @Override
+    public List<Teacher> listcaiwushen(String mtName, PageBean pageBean) {
+        return tm.caiwushen(mtName);
+    }
+
+
+    @Override
+    public Teacher selectTeacherLie(Teacher teacher) {
+        return tm.selectTeacherLie(teacher);
+    }
+
+
+    @Override
+    public int updateTeacherLie(Teacher teacher) {
+        return tm.updateTeacherLie(teacher);
+    }
+
+    @Override
+    public Teacher getByuserId(Teacher teacher) {
+        return tm.getByuserId(teacher);
+    }
 }

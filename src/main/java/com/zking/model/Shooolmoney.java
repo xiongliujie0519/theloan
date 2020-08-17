@@ -1,17 +1,16 @@
 package com.zking.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.ToString;
 
 import java.util.Date;
-
+@ToString
 public class Shooolmoney {
     private Integer smId;
 
     private Integer mtId;
-    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
-    private Date issuedate;
-    @JsonFormat(timezone="GTM+8",pattern="yyyy-MM-dd HH:mm:ss")
-    private Date stopdate;
+    private String issuedate;
+    private String stopdate;
 
     private Float smMoney;
 
@@ -42,7 +41,17 @@ public class Shooolmoney {
         this.student = student;
     }
 
-    public Shooolmoney(Integer smId, Integer mtId, Date issuedate, Date stopdate, Float smMoney) {
+    public Integer getSmStatus() {
+        return smStatus;
+    }
+
+    public void setSmStatus(Integer smStatus) {
+        this.smStatus = smStatus;
+    }
+
+    private Integer smStatus;
+
+    public Shooolmoney(Integer smId, Integer mtId, String issuedate, String stopdate, Float smMoney) {
         this.smId = smId;
         this.mtId = mtId;
         this.issuedate = issuedate;
@@ -70,19 +79,19 @@ public class Shooolmoney {
         this.mtId = mtId;
     }
 
-    public Date getIssuedate() {
+    public String getIssuedate() {
         return issuedate;
     }
 
-    public void setIssuedate(Date issuedate) {
+    public void setIssuedate(String issuedate) {
         this.issuedate = issuedate;
     }
 
-    public Date getStopdate() {
+    public String getStopdate() {
         return stopdate;
     }
 
-    public void setStopdate(Date stopdate) {
+    public void setStopdate(String stopdate) {
         this.stopdate = stopdate;
     }
 

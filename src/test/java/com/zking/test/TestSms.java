@@ -35,7 +35,7 @@ public class TestSms {
                 new NameValuePair("account", "C17211348"), //查看用户名是登录用户中心->验证码短信->产品总览->APIID
                 new NameValuePair("password", "860d58200b6846a6d45f15ac74d05642"),  //查看密码请登录用户中心->验证码短信->产品总览->APIKEY
                 //new NameValuePair("password", util.StringUtil.MD5Encode("密码")),
-                new NameValuePair("mobile", "18774217605"),
+                new NameValuePair("mobile", "17673475702"),
                 new NameValuePair("content", content),
         };
         method.setRequestBody(data);
@@ -54,6 +54,7 @@ public class TestSms {
             String msg = root.elementText("msg");
             String smsid = root.elementText("smsid");
 
+            String substring = content.substring(7, 13);
             System.out.println(code);
             System.out.println(msg);
             System.out.println(smsid);

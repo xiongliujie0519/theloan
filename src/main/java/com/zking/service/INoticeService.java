@@ -15,5 +15,10 @@ public interface INoticeService  {
     int insertNotice(Notice notice);
     //修改公告
     int updateNotice(Notice notice);
+
     List<Notice> listnotice(Notice notice ,PageBean pageBean);
+
+
+    //首页显示公告
+    List<Notice> indexNotice();
 }

@@ -43,16 +43,38 @@ public interface ShooolmoneyMapper {
 
     /**
      * 查看
+     * @param
+     * @return
+     */
+    Shooolmoney findMoneyById(@Param("maId") Integer maId);
+
+    /**
+     * 申请查询
      * @param smId
      * @return
      */
-    Shooolmoney findMoneyById(Integer smId);
+    Shooolmoney findMoneySQById(Integer smId);
 
     /**
      * 查询所有钱
      * @return
      */
     List<Shooolmoney> listMoney();
+
+
+    /**
+     * 查询发布任务信息
+     * @param shooolmoney
+     * @return
+     */
+    List<Shooolmoney> listShooolmoneyAll(Shooolmoney shooolmoney,@Param("mtName") String mtName);
+
+    /**
+     * 通过审核
+     * @param shooolmoney
+     * @return
+     */
+    int updateStatus(Shooolmoney shooolmoney);
 
 
 }

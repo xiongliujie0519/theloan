@@ -60,11 +60,12 @@ public class Staff {
 
     private StaffRole staffRole;
 
-    public Staff(Integer staffId, Integer userId, Integer stId, String staffName) {
+    public Staff(Integer staffId, Integer userId, Integer stId, String staffName,String staffCzr) {
         this.staffId = staffId;
         this.userId = userId;
         this.stId = stId;
         this.staffName = staffName;
+        this.staffCzr=staffCzr;
     }
 
     public Staff() {

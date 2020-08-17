@@ -79,4 +79,19 @@ public class StaffServiceImpl implements IStaffService {
     public int deleteStaffRole(Staff staff) {
         return staffMapper.deleteStaffRole(staff);
     }
+
+    @Override
+    public Staff selectStaffLie(Staff staff) {
+        return staffMapper.selectStaffLie(staff);
+    }
+
+    @Override
+    public int updateStaffLie(Staff staff) {
+        return staffMapper.updateStaffLie(staff);
+    }
+
+    @Override
+    public Staff getStaffId(Staff staff) {
+        return staffMapper.getStaffId(staff);
+    }
 }

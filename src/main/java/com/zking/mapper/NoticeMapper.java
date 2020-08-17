@@ -28,4 +28,7 @@ public interface NoticeMapper {
     int updateNotice(Notice notice);
     //发布公告
     List<Notice> listnotice(Notice notice);
+
+    //首页显示公告
+    List<Notice> indexNotice();
 }

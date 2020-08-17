@@ -16,7 +16,11 @@
     from t_money_type
     where mt_id = #{mtId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="MoneyTypeAll" resultMap="BaseResultMap">
+            select <include refid="Base_Column_List"/>
+            from t_money_type ORDER BY mt_id
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_money_type
     where mt_id = #{mtId,jdbcType=INTEGER}
   </delete>
